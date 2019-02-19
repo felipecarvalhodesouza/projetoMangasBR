@@ -1,17 +1,15 @@
 package com.felipecarvalho.projetoMangasBR.domain;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 
 @Entity
-public class Publisher implements Serializable{
+public class Title implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
@@ -19,17 +17,22 @@ public class Publisher implements Serializable{
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	private String name;
+	private Publisher publisher;
+	private boolean isFinished;
+	private Date start;
+	private Date end;
 	
-	@OneToMany(mappedBy="publisher")
-	private List<Title> publications = new ArrayList<>();
-	
-	public Publisher(Integer id, String name) {
+	public Title() {
+	}
+
+	public Title(Integer id, String name, Publisher publisher, boolean isFinished, Date start, Date end) {
 		super();
 		this.id = id;
 		this.name = name;
-	}
-	
-	public Publisher() {
+		this.publisher = publisher;
+		this.isFinished = isFinished;
+		this.start = start;
+		this.end = end;
 	}
 
 	public Integer getId() {
@@ -47,13 +50,37 @@ public class Publisher implements Serializable{
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	public List<Title> getPublications() {
-		return publications;
+
+	public Publisher getPublisher() {
+		return publisher;
 	}
 
-	public void setPublications(List<Title> publications) {
-		this.publications = publications;
+	public void setPublisher(Publisher publisher) {
+		this.publisher = publisher;
+	}
+
+	public boolean isFinished() {
+		return isFinished;
+	}
+
+	public void setFinished(boolean isFinished) {
+		this.isFinished = isFinished;
+	}
+
+	public Date getStart() {
+		return start;
+	}
+
+	public void setStart(Date start) {
+		this.start = start;
+	}
+
+	public Date getEnd() {
+		return end;
+	}
+
+	public void setEnd(Date end) {
+		this.end = end;
 	}
 
 	@Override
@@ -72,7 +99,7 @@ public class Publisher implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Publisher other = (Publisher) obj;
+		Title other = (Title) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -80,6 +107,5 @@ public class Publisher implements Serializable{
 			return false;
 		return true;
 	}
-
-
+	
 }
