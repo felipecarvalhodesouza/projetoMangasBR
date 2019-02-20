@@ -7,20 +7,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.felipecarvalho.projetoMangasBR.domain.Publisher;
-import com.felipecarvalho.projetoMangasBR.services.PublisherService;
+import com.felipecarvalho.projetoMangasBR.domain.Title;
+import com.felipecarvalho.projetoMangasBR.services.TitleService;
 
 @RestController
-@RequestMapping(value="/publishers")
-public class PublisherResource {
+@RequestMapping(value="/titles")
+public class TitleResource {
 	
 	@Autowired
-	private PublisherService service;
+	private TitleService service;
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
-	public ResponseEntity<Publisher> find(@PathVariable Integer id){
+	public ResponseEntity<Title> find(@PathVariable Integer id){
 		
-		Publisher obj = service.find(id);
+		Title obj = service.find(id);
 		return ResponseEntity.ok().body(obj);
 	}
 

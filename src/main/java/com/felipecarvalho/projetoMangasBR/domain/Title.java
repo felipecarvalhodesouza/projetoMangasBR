@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Title implements Serializable{
@@ -17,6 +19,9 @@ public class Title implements Serializable{
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	private String name;
+	
+	@ManyToOne
+	@JoinColumn(name="publisher_id")
 	private Publisher publisher;
 	private boolean isFinished;
 	private Date start;
