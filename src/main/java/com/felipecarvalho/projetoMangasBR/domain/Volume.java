@@ -1,19 +1,17 @@
 package com.felipecarvalho.projetoMangasBR.domain;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
-public class Publisher implements Serializable{
+public class Volume implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
@@ -22,17 +20,22 @@ public class Publisher implements Serializable{
 	private Integer id;
 	private String name;
 	
-	@JsonIgnore
-	@OneToMany(mappedBy="publisher")
-	private List<Title> publications = new ArrayList<>();
+	@ManyToOne
+	@JoinColumn(name="title_id")
+	private Title title;
+	private Date date;
+	private Double price;
 	
-	public Publisher(Integer id, String name) {
+	Volume(){
+	}
+
+	public Volume(Integer id, String name, Title title, Date date, Double price) {
 		super();
 		this.id = id;
 		this.name = name;
-	}
-	
-	public Publisher() {
+		this.title = title;
+		this.date = date;
+		this.price = price;
 	}
 
 	public Integer getId() {
@@ -50,13 +53,29 @@ public class Publisher implements Serializable{
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	public List<Title> getPublications() {
-		return publications;
+
+	public Title getTitle() {
+		return title;
 	}
 
-	public void setPublications(List<Title> publications) {
-		this.publications = publications;
+	public void setTitle(Title title) {
+		this.title = title;
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
+	public Double getPrice() {
+		return price;
+	}
+
+	public void setPrice(Double price) {
+		this.price = price;
 	}
 
 	@Override
@@ -75,7 +94,7 @@ public class Publisher implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Publisher other = (Publisher) obj;
+		Volume other = (Volume) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -83,6 +102,5 @@ public class Publisher implements Serializable{
 			return false;
 		return true;
 	}
-
-
+		
 }
