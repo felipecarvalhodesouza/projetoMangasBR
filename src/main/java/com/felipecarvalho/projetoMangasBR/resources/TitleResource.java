@@ -1,6 +1,7 @@
 package com.felipecarvalho.projetoMangasBR.resources;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.felipecarvalho.projetoMangasBR.domain.Title;
 import com.felipecarvalho.projetoMangasBR.domain.Volume;
+import com.felipecarvalho.projetoMangasBR.dto.VolumeDTO;
 import com.felipecarvalho.projetoMangasBR.services.TitleService;
 import com.felipecarvalho.projetoMangasBR.services.VolumeService;
 
@@ -33,10 +35,11 @@ public class TitleResource {
 	
 	//entre chaves por ser um parâmetro de URL	
 	@RequestMapping(value="/{titleId}/volumes", method=RequestMethod.GET)
-	public ResponseEntity<List<Volume>> findVolumes(@PathVariable Integer titleId){
+	public ResponseEntity<List<VolumeDTO>> findVolumes(@PathVariable Integer titleId){
 		List<Volume> list = volumeService.findByTitle(titleId);
 		//pesquisar função stream da lista.
-		return ResponseEntity.ok().body(list);
+		List<VolumeDTO> listDto = list.stream().map(obj -> new VolumeDTO(obj)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(listDto);
 	}
 
 }
