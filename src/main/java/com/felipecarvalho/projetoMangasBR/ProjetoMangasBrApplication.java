@@ -64,7 +64,7 @@ public class ProjetoMangasBrApplication implements CommandLineRunner{
 		
 		volumeRepository.saveAll(Arrays.asList(v1,v2,v3,v4,v5,v6));
 		
-		User user1 = new User(null, "Felipe Carvalho de Souza");
+		User user1 = new User(null, "Felipe Carvalho de Souza", "desouzafelipecarvalho@gmail.com", "123");
 		
 		userRepository.save(user1);
 	}
