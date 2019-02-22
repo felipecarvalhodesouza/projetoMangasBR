@@ -11,9 +11,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.felipecarvalho.projetoMangasBR.domain.Publisher;
 import com.felipecarvalho.projetoMangasBR.domain.Title;
+import com.felipecarvalho.projetoMangasBR.domain.User;
 import com.felipecarvalho.projetoMangasBR.domain.Volume;
 import com.felipecarvalho.projetoMangasBR.repositories.PublisherRepository;
 import com.felipecarvalho.projetoMangasBR.repositories.TitleRepository;
+import com.felipecarvalho.projetoMangasBR.repositories.UserRepository;
 import com.felipecarvalho.projetoMangasBR.repositories.VolumeRepository;
 
 @SpringBootApplication
@@ -27,6 +29,9 @@ public class ProjetoMangasBrApplication implements CommandLineRunner{
 	
 	@Autowired
 	private VolumeRepository volumeRepository;
+	
+	@Autowired
+	private UserRepository userRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(ProjetoMangasBrApplication.class, args);
@@ -59,6 +64,9 @@ public class ProjetoMangasBrApplication implements CommandLineRunner{
 		
 		volumeRepository.saveAll(Arrays.asList(v1,v2,v3,v4,v5,v6));
 		
+		User user1 = new User(null, "Felipe Carvalho de Souza");
+		
+		userRepository.save(user1);
 	}
 
 }
