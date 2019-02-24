@@ -10,6 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -31,6 +33,14 @@ public class Title implements Serializable{
 	private boolean isFinished;
 	private Date start;
 	private Date end;
+	
+	@JsonIgnore
+	@ManyToMany
+	@JoinTable(name = "COLLECTION_TITLE", 
+		joinColumns = @JoinColumn(name = "title_id"),
+		inverseJoinColumns = @JoinColumn(name = "collection_id")
+	)
+	private List<Collection> collections;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy="title")
@@ -103,6 +113,14 @@ public class Title implements Serializable{
 
 	public void setVolumes(List<Volume> volumes) {
 		this.volumes = volumes;
+	}
+
+	public List<Collection> getCollections() {
+		return collections;
+	}
+
+	public void setCollections(List<Collection> collections) {
+		this.collections = collections;
 	}
 
 	@Override

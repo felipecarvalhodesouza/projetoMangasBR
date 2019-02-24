@@ -1,44 +1,40 @@
 package com.felipecarvalho.projetoMangasBR.domain;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 
 @Entity
-public class Volume implements Serializable{
+public class Collection implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
-	private String name;
 	
-	@JsonIgnore
-	@ManyToOne
-	@JoinColumn(name="title_id")
-	private Title title;
-	private Date date;
-	private Double price;
+	@OneToOne(fetch = FetchType.LAZY, optional = false)
+	private User owner;
 	
-	Volume(){
+	@ManyToMany(mappedBy="collections")
+	private List<Title> titles = new ArrayList<>();;
+	
+	public Collection() {
 	}
 
-	public Volume(Integer id, String name, Title title, Date date, Double price) {
+	public Collection(Integer id, User owner, List<Title> titles) {
 		super();
 		this.id = id;
-		this.name = name;
-		this.title = title;
-		this.date = date;
-		this.price = price;
+		this.owner = owner;
+		this.titles = titles;
 	}
 
 	public Integer getId() {
@@ -49,36 +45,20 @@ public class Volume implements Serializable{
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public User getOwner() {
+		return owner;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setOwner(User owner) {
+		this.owner = owner;
 	}
 
-	public Title getTitle() {
-		return title;
+	public List<Title> getTitles() {
+		return titles;
 	}
 
-	public void setTitle(Title title) {
-		this.title = title;
-	}
-
-	public Date getDate() {
-		return date;
-	}
-
-	public void setDate(Date date) {
-		this.date = date;
-	}
-
-	public Double getPrice() {
-		return price;
-	}
-
-	public void setPrice(Double price) {
-		this.price = price;
+	public void setTitles(List<Title> titles) {
+		this.titles = titles;
 	}
 
 	@Override
@@ -97,7 +77,7 @@ public class Volume implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Volume other = (Volume) obj;
+		Collection other = (Collection) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -105,5 +85,5 @@ public class Volume implements Serializable{
 			return false;
 		return true;
 	}
-		
+	
 }

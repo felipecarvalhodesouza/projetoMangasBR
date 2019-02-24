@@ -35,11 +35,11 @@ public class TitleResource {
 	
 	//entre chaves por ser um parâmetro de URL	
 	@RequestMapping(value="/{titleId}/volumes", method=RequestMethod.GET)
-	public ResponseEntity<List<VolumeDTO>> findVolumes(@PathVariable Integer titleId){
+	public ResponseEntity<List<Volume>> findVolumes(@PathVariable Integer titleId){
 		List<Volume> list = volumeService.findByTitle(titleId);
 		//pesquisar função stream da lista.
-		List<VolumeDTO> listDto = list.stream().map(obj -> new VolumeDTO(obj)).collect(Collectors.toList());
-		return ResponseEntity.ok().body(listDto);
+//		List<VolumeDTO> listDto = list.stream().map(obj -> new VolumeDTO(obj)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(list);
 	}
 
 }

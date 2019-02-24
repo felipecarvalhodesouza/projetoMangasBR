@@ -2,10 +2,13 @@ package com.felipecarvalho.projetoMangasBR.domain;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 @Entity
 public class User implements Serializable{
@@ -18,6 +21,11 @@ public class User implements Serializable{
 	private String name;
 	private String email;
 	private String senha;
+	
+    @OneToOne(fetch = FetchType.LAZY,
+            cascade =  CascadeType.ALL,
+            mappedBy = "owner")
+	private Collection collection;
 	
 	public User() {
 	}
@@ -60,6 +68,14 @@ public class User implements Serializable{
 
 	public void setSenha(String senha) {
 		this.senha = senha;
+	}
+
+	public Collection getCollection() {
+		return collection;
+	}
+
+	public void setCollection(Collection collection) {
+		this.collection = collection;
 	}
 
 	@Override
