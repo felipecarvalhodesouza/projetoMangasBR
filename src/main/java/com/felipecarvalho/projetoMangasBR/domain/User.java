@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class User implements Serializable{
 
@@ -22,6 +24,7 @@ public class User implements Serializable{
 	private String email;
 	private String senha;
 	
+	@JsonIgnore
     @OneToOne(fetch = FetchType.LAZY,
             cascade =  CascadeType.ALL,
             mappedBy = "owner")

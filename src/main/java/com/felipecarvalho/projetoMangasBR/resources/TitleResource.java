@@ -1,7 +1,6 @@
 package com.felipecarvalho.projetoMangasBR.resources;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.felipecarvalho.projetoMangasBR.domain.Title;
 import com.felipecarvalho.projetoMangasBR.domain.Volume;
-import com.felipecarvalho.projetoMangasBR.dto.VolumeDTO;
 import com.felipecarvalho.projetoMangasBR.services.TitleService;
 import com.felipecarvalho.projetoMangasBR.services.VolumeService;
 

@@ -3,15 +3,15 @@ package com.felipecarvalho.projetoMangasBR.domain;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -35,16 +35,12 @@ public class Title implements Serializable{
 	private Date end;
 	
 	@JsonIgnore
-	@ManyToMany
-	@JoinTable(name = "COLLECTION_TITLE", 
-		joinColumns = @JoinColumn(name = "title_id"),
-		inverseJoinColumns = @JoinColumn(name = "collection_id")
-	)
-	private List<Collection> collections;
+	@OneToMany(mappedBy="title")
+	private Set<Volume> volumes = new HashSet<>();
 	
 	@JsonIgnore
-	@OneToMany(mappedBy="title")
-	private List<Volume> volumes = new ArrayList<>();
+	@OneToMany(mappedBy="id.title")
+	private Set<CollectionTitle> collectionsTitle = new HashSet<>();
 	
 	public Title() {
 	}
@@ -57,6 +53,15 @@ public class Title implements Serializable{
 		this.isFinished = isFinished;
 		this.start = start;
 		this.end = end;
+	}
+	
+	@JsonIgnore
+	public List<Collection> getCollections(){
+		List<Collection> lista = new ArrayList<>();
+		for(CollectionTitle x : collectionsTitle) {
+			lista.add(x.getCollection());
+		}
+		return lista;
 	}
 
 	public Integer getId() {
@@ -107,20 +112,20 @@ public class Title implements Serializable{
 		this.end = end;
 	}
 	
-	public List<Volume> getVolumes() {
+	public Set<Volume> getVolumes() {
 		return volumes;
 	}
 
-	public void setVolumes(List<Volume> volumes) {
+	public void setVolumes(Set<Volume> volumes) {
 		this.volumes = volumes;
 	}
 
-	public List<Collection> getCollections() {
-		return collections;
+	public Set<CollectionTitle> getCollectionsTitle() {
+		return collectionsTitle;
 	}
 
-	public void setCollections(List<Collection> collections) {
-		this.collections = collections;
+	public void setCollectionsTitle(Set<CollectionTitle> collectionsTitle) {
+		this.collectionsTitle = collectionsTitle;
 	}
 
 	@Override

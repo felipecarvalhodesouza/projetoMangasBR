@@ -2,15 +2,20 @@ package com.felipecarvalho.projetoMangasBR.domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 @Entity
 public class Collection implements Serializable{
@@ -21,20 +26,29 @@ public class Collection implements Serializable{
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	
+	@JsonIgnore
 	@OneToOne(fetch = FetchType.LAZY, optional = false)
 	private User owner;
 	
-	@ManyToMany(mappedBy="collections")
-	private List<Title> titles = new ArrayList<>();;
+	@JsonIgnore
+	@OneToMany(mappedBy="id.collection")
+	private Set<CollectionTitle> collectionTitle = new HashSet<>();
 	
 	public Collection() {
 	}
 
-	public Collection(Integer id, User owner, List<Title> titles) {
+	public Collection(Integer id, User owner) {
 		super();
 		this.id = id;
 		this.owner = owner;
-		this.titles = titles;
+	}
+	
+	public List<Title> getTitles(){
+		List<Title> lista = new ArrayList<>();
+		for(CollectionTitle x : collectionTitle) {
+			lista.add(x.getTitle());
+		}
+		return lista;
 	}
 
 	public Integer getId() {
@@ -53,12 +67,12 @@ public class Collection implements Serializable{
 		this.owner = owner;
 	}
 
-	public List<Title> getTitles() {
-		return titles;
+	public Set<CollectionTitle> getCollectionTitle() {
+		return collectionTitle;
 	}
 
-	public void setTitles(List<Title> titles) {
-		this.titles = titles;
+	public void setCollectionTitle(Set<CollectionTitle> collectionTitle) {
+		this.collectionTitle = collectionTitle;
 	}
 
 	@Override

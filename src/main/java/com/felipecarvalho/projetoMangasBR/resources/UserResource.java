@@ -1,7 +1,5 @@
 package com.felipecarvalho.projetoMangasBR.resources;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,7 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.felipecarvalho.projetoMangasBR.domain.Collection;
 import com.felipecarvalho.projetoMangasBR.domain.User;
-import com.felipecarvalho.projetoMangasBR.domain.Volume;
 import com.felipecarvalho.projetoMangasBR.services.CollectionService;
 import com.felipecarvalho.projetoMangasBR.services.UserService;
 

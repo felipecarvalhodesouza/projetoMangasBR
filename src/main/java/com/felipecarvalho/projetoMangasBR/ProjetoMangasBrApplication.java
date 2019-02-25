@@ -1,9 +1,7 @@
 package com.felipecarvalho.projetoMangasBR;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.TimeZone;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,11 +10,13 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.felipecarvalho.projetoMangasBR.domain.Collection;
+import com.felipecarvalho.projetoMangasBR.domain.CollectionTitle;
 import com.felipecarvalho.projetoMangasBR.domain.Publisher;
 import com.felipecarvalho.projetoMangasBR.domain.Title;
 import com.felipecarvalho.projetoMangasBR.domain.User;
 import com.felipecarvalho.projetoMangasBR.domain.Volume;
 import com.felipecarvalho.projetoMangasBR.repositories.CollectionRepository;
+import com.felipecarvalho.projetoMangasBR.repositories.CollectionTitleRepository;
 import com.felipecarvalho.projetoMangasBR.repositories.PublisherRepository;
 import com.felipecarvalho.projetoMangasBR.repositories.TitleRepository;
 import com.felipecarvalho.projetoMangasBR.repositories.UserRepository;
@@ -39,6 +39,9 @@ public class ProjetoMangasBrApplication implements CommandLineRunner{
 	
 	@Autowired
 	private CollectionRepository collectionRepository;
+	
+	@Autowired
+	private CollectionTitleRepository collectionTitleRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(ProjetoMangasBrApplication.class, args);
@@ -73,21 +76,20 @@ public class ProjetoMangasBrApplication implements CommandLineRunner{
 		
 		User user1 = new User(null, "Felipe Carvalho de Souza", "desouzafelipecarvalho@gmail.com", "123");
 		
-		List<Title> list = new ArrayList<>();
-		list.addAll(Arrays.asList(t1,t3));
+		Collection c1 = new Collection(null, user1);
 		
-		Collection c1 = new Collection(null, user1, list);
+		CollectionTitle ct1 = new CollectionTitle(c1, t1);
+		CollectionTitle ct2 = new CollectionTitle(c1, t3);
 		
-		t1.setCollections(Arrays.asList(c1));
-		t3.setCollections(Arrays.asList(c1));
+		c1.getCollectionTitle().addAll(Arrays.asList(ct1,ct2));
 		
-		user1.setCollection(c1);
+		t1.getCollectionsTitle().addAll(Arrays.asList(ct1));
 		
 		userRepository.save(user1);
 		
-		collectionRepository.saveAll(Arrays.asList(c1));
+		collectionRepository.save(c1);
 		
-		titleRepository.saveAll(Arrays.asList(t1,t2,t3));
+		collectionTitleRepository.saveAll(Arrays.asList(ct1,ct2));
 		
 	}
 
