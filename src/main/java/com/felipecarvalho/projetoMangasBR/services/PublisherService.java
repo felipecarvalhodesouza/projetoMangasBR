@@ -18,4 +18,9 @@ public class PublisherService {
 		Optional<Publisher> obj = repo.findById(id);
 		return obj.orElse(null);
 	}
+	
+	public Publisher insert(Publisher obj) {
+		obj.setId(null);
+		return repo.save(obj);
+	}
 }
