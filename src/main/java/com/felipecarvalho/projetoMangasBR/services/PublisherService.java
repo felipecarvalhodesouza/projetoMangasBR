@@ -23,4 +23,9 @@ public class PublisherService {
 		obj.setId(null);
 		return repo.save(obj);
 	}
+	
+	public Publisher update(Publisher obj) {
+		find(obj.getId());
+		return repo.save(obj);
+	}
 }
