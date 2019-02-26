@@ -15,12 +15,14 @@ import com.felipecarvalho.projetoMangasBR.domain.Publisher;
 import com.felipecarvalho.projetoMangasBR.domain.Title;
 import com.felipecarvalho.projetoMangasBR.domain.User;
 import com.felipecarvalho.projetoMangasBR.domain.Volume;
+import com.felipecarvalho.projetoMangasBR.domain.VolumeUser;
 import com.felipecarvalho.projetoMangasBR.repositories.CollectionRepository;
 import com.felipecarvalho.projetoMangasBR.repositories.CollectionTitleRepository;
 import com.felipecarvalho.projetoMangasBR.repositories.PublisherRepository;
 import com.felipecarvalho.projetoMangasBR.repositories.TitleRepository;
 import com.felipecarvalho.projetoMangasBR.repositories.UserRepository;
 import com.felipecarvalho.projetoMangasBR.repositories.VolumeRepository;
+import com.felipecarvalho.projetoMangasBR.repositories.VolumeUserRepository;
 
 @SpringBootApplication
 public class ProjetoMangasBrApplication implements CommandLineRunner{
@@ -42,6 +44,9 @@ public class ProjetoMangasBrApplication implements CommandLineRunner{
 	
 	@Autowired
 	private CollectionTitleRepository collectionTitleRepository;
+	
+	@Autowired
+	private VolumeUserRepository volumeUserRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(ProjetoMangasBrApplication.class, args);
@@ -90,6 +95,15 @@ public class ProjetoMangasBrApplication implements CommandLineRunner{
 		collectionRepository.save(c1);
 		
 		collectionTitleRepository.saveAll(Arrays.asList(ct1,ct2));
+		
+		VolumeUser vu1 = new VolumeUser(ct1, v1);
+		VolumeUser vu2 = new VolumeUser(ct1, v2);
+		VolumeUser vu3 = new VolumeUser(ct1, v3);
+		VolumeUser vu4 = new VolumeUser(ct1, v4);
+		VolumeUser vu5 = new VolumeUser(ct1, v5);
+		VolumeUser vu6 = new VolumeUser(ct1, v6);
+		
+		volumeUserRepository.saveAll(Arrays.asList(vu1,vu2,vu3,vu4,vu5,vu6));
 		
 	}
 

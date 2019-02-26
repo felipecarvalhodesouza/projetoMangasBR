@@ -8,7 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.felipecarvalho.projetoMangasBR.dto.VolumeDTO;
 
 @Entity
 public class CollectionTitle implements Serializable{
@@ -20,7 +19,7 @@ public class CollectionTitle implements Serializable{
 	private CollectionTitlePK id = new CollectionTitlePK();
 	
 	@OneToMany(mappedBy="collectionTitle")
-	private List<VolumeDTO> volumesUser;
+	private List<VolumeUser> volumesUser;
 	
 	public CollectionTitle() {
 	}
@@ -47,11 +46,11 @@ public class CollectionTitle implements Serializable{
 		this.id = id;
 	}
 
-	public List<VolumeDTO> getVolumesUser() {
+	public List<VolumeUser> getVolumesUser() {
 		return volumesUser;
 	}
 
-	public void setVolumesUser(List<VolumeDTO> volumesUser) {
+	public void setVolumesUser(List<VolumeUser> volumesUser) {
 		this.volumesUser = volumesUser;
 	}
 

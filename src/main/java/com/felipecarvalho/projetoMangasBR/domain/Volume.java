@@ -2,6 +2,7 @@ package com.felipecarvalho.projetoMangasBR.domain;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -29,6 +31,9 @@ public class Volume implements Serializable{
 	private Title title;
 	private Date date;
 	private Double price;
+	
+	@OneToMany(mappedBy="volume")
+	private List<VolumeUser> volumeUser;
 	
 	Volume(){
 	}
