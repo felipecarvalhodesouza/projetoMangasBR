@@ -1,6 +1,7 @@
 package com.felipecarvalho.projetoMangasBR.resources;
 
 import java.net.URI;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.felipecarvalho.projetoMangasBR.domain.Publisher;
+import com.felipecarvalho.projetoMangasBR.domain.Title;
 import com.felipecarvalho.projetoMangasBR.services.PublisherService;
 
 @RestController
@@ -36,11 +38,18 @@ public class PublisherResource {
 		return ResponseEntity.created(uri).build();
 	}
 	
+	@RequestMapping(method=RequestMethod.GET)
+	public ResponseEntity<List<Publisher>> findAll() {
+		List<Publisher> list = service.findAll();
+		return ResponseEntity.ok().body(list);
+	}
+	
 	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
 	public ResponseEntity<Void> update(@RequestBody Publisher obj, @PathVariable Integer id){
 		obj.setId(id);
 		obj = service.update(obj);
 		return ResponseEntity.noContent().build();
 	}
+
 
 }
