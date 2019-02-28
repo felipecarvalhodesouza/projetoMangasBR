@@ -10,6 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class VolumeUser implements Serializable{
 
@@ -36,13 +38,18 @@ public class VolumeUser implements Serializable{
 		this.collectionTitle = collectionTitle;
 		this.volume = obj;
 	}
-
+	
+	@JsonIgnore
 	public Integer getId() {
 		return id;
 	}
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+	
+	public String getName() {
+		return this.volume.getName();
 	}
 	
 	public Integer getCollectionId(CollectionTitle obj) {

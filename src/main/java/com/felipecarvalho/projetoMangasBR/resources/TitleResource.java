@@ -39,5 +39,11 @@ public class TitleResource {
 //		List<VolumeDTO> listDto = list.stream().map(obj -> new VolumeDTO(obj)).collect(Collectors.toList());
 		return ResponseEntity.ok().body(list);
 	}
+	
+	@RequestMapping(method=RequestMethod.GET)
+	public ResponseEntity<List<Title>> findAll() {
+		List<Title> list = service.findAll();
+		return ResponseEntity.ok().body(list);
+	}
 
 }

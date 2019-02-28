@@ -74,10 +74,12 @@ public class ProjetoMangasBrApplication implements CommandLineRunner{
 		Volume v4 = new Volume(null, "Volume 4", t1, sdf.parse("08/2007"), 8.90);
 		Volume v5 = new Volume(null, "Volume 5", t1, sdf.parse("09/2007"), 8.90);
 		Volume v6 = new Volume(null, "Volume 6", t1, sdf.parse("10/2007"), 8.90);
+		Volume v7 = new Volume(null, "Volume 1", t3, sdf.parse("09/2007"), 10.90);
+		Volume v8 = new Volume(null, "Volume 2", t3, sdf.parse("10/2007"), 10.90);
 		
 		titleRepository.saveAll(Arrays.asList(t1,t2,t3));
 		
-		volumeRepository.saveAll(Arrays.asList(v1,v2,v3,v4,v5,v6));
+		volumeRepository.saveAll(Arrays.asList(v1,v2,v3,v4,v5,v6,v7,v8));
 		
 		User user1 = new User(null, "Felipe Carvalho de Souza", "desouzafelipecarvalho@gmail.com", "123");
 		
@@ -89,6 +91,7 @@ public class ProjetoMangasBrApplication implements CommandLineRunner{
 		c1.getCollectionTitle().addAll(Arrays.asList(ct1,ct2));
 		
 		t1.getCollectionsTitle().addAll(Arrays.asList(ct1));
+		t3.getCollectionsTitle().addAll(Arrays.asList(ct2));
 		
 		userRepository.save(user1);
 		
@@ -102,8 +105,11 @@ public class ProjetoMangasBrApplication implements CommandLineRunner{
 		VolumeUser vu4 = new VolumeUser(ct1, v4);
 		VolumeUser vu5 = new VolumeUser(ct1, v5);
 		VolumeUser vu6 = new VolumeUser(ct1, v6);
+		VolumeUser vu7 = new VolumeUser(ct2, v7);
+		VolumeUser vu8 = new VolumeUser(ct2, v8);
 		
 		volumeUserRepository.saveAll(Arrays.asList(vu1,vu2,vu3,vu4,vu5,vu6));
+		volumeUserRepository.saveAll(Arrays.asList(vu7,vu8));
 		
 	}
 

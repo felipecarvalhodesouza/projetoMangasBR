@@ -1,5 +1,6 @@
 package com.felipecarvalho.projetoMangasBR.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,5 +18,9 @@ public class TitleService {
 	public Title find(Integer id) {
 		Optional<Title> obj = repo.findById(id);
 		return obj.orElse(null);
+	}
+	
+	public List<Title> findAll(){
+		return repo.findAll();
 	}
 }

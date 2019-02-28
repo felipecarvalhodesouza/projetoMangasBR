@@ -1,5 +1,7 @@
 package com.felipecarvalho.projetoMangasBR.resources;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -8,8 +10,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.felipecarvalho.projetoMangasBR.domain.Collection;
+import com.felipecarvalho.projetoMangasBR.domain.Title;
 import com.felipecarvalho.projetoMangasBR.domain.User;
+import com.felipecarvalho.projetoMangasBR.domain.VolumeUser;
 import com.felipecarvalho.projetoMangasBR.services.CollectionService;
+import com.felipecarvalho.projetoMangasBR.services.TitleService;
 import com.felipecarvalho.projetoMangasBR.services.UserService;
 
 @RestController
@@ -22,6 +27,9 @@ public class UserResource {
 	@Autowired
 	private CollectionService collectionService;
 	
+	@Autowired
+	private TitleService titleService;
+	
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	public ResponseEntity<User> find(@PathVariable Integer id){
 		
@@ -33,6 +41,17 @@ public class UserResource {
 	public ResponseEntity<Collection> findCollection(@PathVariable Integer userId){
 		Collection col = collectionService.findByUser(userId);
 		return ResponseEntity.ok().body(col);
+	}
+	
+	@RequestMapping(value="/{userId}/collection/{titleId}", method=RequestMethod.GET)
+	public ResponseEntity<List<VolumeUser>> findCollectionVolumes(@PathVariable Integer userId, @PathVariable Integer titleId){
+		
+		Integer index = null;
+		Title title = collectionService.findByUser(userId).getTitles().get(titleId-1);
+		Collection collection = collectionService.findByUser(userId);
+
+		List<VolumeUser> list = collectionService.findTitleVolumes(collection, title);
+		return ResponseEntity.ok().body(list);
 	}
 
 }
