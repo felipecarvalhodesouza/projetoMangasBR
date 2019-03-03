@@ -18,4 +18,15 @@ public class UserService {
 		Optional<User> obj = repo.findById(id);
 		return obj.orElse(null);
 	}
+	
+	public User update(User obj) {
+		User newObj = find(obj.getId());
+		updateData(newObj, obj);
+		return repo.save(newObj);
+	}
+	
+	private void updateData(User newObj, User obj) {
+		newObj.setName(obj.getName());
+		newObj.setEmail(obj.getEmail());
+	}
 }
