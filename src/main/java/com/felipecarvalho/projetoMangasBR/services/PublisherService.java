@@ -40,8 +40,9 @@ public class PublisherService {
 	}
 	
 	public Publisher update(Publisher obj) {
-		find(obj.getId());
-		return repo.save(obj);
+		Publisher newObj = find(obj.getId());
+		updateData(newObj, obj);
+		return repo.save(newObj);
 	}
 	
 	public void delete(Integer id) {
@@ -52,5 +53,9 @@ public class PublisherService {
 		catch(DataIntegrityViolationException e) {
 			throw new DataIntegrityException("Não é possível excluir uma Editora que possui Títulos");
 		}
+	}
+	
+	private void updateData(Publisher newObj, Publisher obj) {
+		newObj.setName(obj.getName());
 	}
 }
