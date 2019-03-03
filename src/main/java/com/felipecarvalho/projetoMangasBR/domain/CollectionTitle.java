@@ -3,6 +3,7 @@ package com.felipecarvalho.projetoMangasBR.domain;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
@@ -18,7 +19,7 @@ public class CollectionTitle implements Serializable{
 	@EmbeddedId
 	private CollectionTitlePK id = new CollectionTitlePK();
 	
-	@OneToMany(mappedBy="collectionTitle")
+	@OneToMany(mappedBy="collectionTitle", cascade = CascadeType.ALL)
 	private List<VolumeUser> volumesUser;
 	
 	public CollectionTitle() {

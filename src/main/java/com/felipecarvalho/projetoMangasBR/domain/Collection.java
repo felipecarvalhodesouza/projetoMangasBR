@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -31,7 +32,7 @@ public class Collection implements Serializable{
 	private User owner;
 	
 	@JsonIgnore
-	@OneToMany(mappedBy="id.collection")
+	@OneToMany(mappedBy="id.collection", cascade = CascadeType.ALL)
 	private Set<CollectionTitle> collectionTitle = new HashSet<>();
 	
 	public Collection() {

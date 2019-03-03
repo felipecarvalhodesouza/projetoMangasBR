@@ -43,6 +43,12 @@ public class UserResource {
 		return ResponseEntity.noContent().build();
 	}
 	
+	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
+	public ResponseEntity<Void> delete(@PathVariable Integer id) {
+		service.delete(id);
+		return ResponseEntity.noContent().build();
+	}
+	
 	@RequestMapping(value="/{userId}/collection", method=RequestMethod.GET)
 	public ResponseEntity<Collection> findCollection(@PathVariable Integer userId){
 		Collection col = collectionService.findByUser(userId);
