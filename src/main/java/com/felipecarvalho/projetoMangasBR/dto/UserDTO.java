@@ -8,9 +8,10 @@ import javax.validation.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Length;
 
 import com.felipecarvalho.projetoMangasBR.services.validation.UserInsert;
+import com.felipecarvalho.projetoMangasBR.services.validation.UserUpdate;
 
-@UserInsert
-public class UserNewDTO implements Serializable{
+@UserUpdate
+public class UserDTO implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
@@ -21,7 +22,7 @@ public class UserNewDTO implements Serializable{
 	@NotEmpty(message="Preenchimento obrigatório")
 	@Email(message="Email inválido")
 	private String email;
-
+	
 	public String getName() {
 		return name;
 	}
@@ -37,4 +38,5 @@ public class UserNewDTO implements Serializable{
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	
 }
