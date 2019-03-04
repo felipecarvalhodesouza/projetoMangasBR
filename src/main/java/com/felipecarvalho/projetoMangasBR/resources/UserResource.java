@@ -18,6 +18,7 @@ import com.felipecarvalho.projetoMangasBR.domain.Collection;
 import com.felipecarvalho.projetoMangasBR.domain.Title;
 import com.felipecarvalho.projetoMangasBR.domain.User;
 import com.felipecarvalho.projetoMangasBR.domain.VolumeUser;
+import com.felipecarvalho.projetoMangasBR.dto.UserNewDTO;
 import com.felipecarvalho.projetoMangasBR.services.CollectionService;
 import com.felipecarvalho.projetoMangasBR.services.UserService;
 
@@ -52,7 +53,8 @@ public class UserResource {
 	}
 	
 	@RequestMapping(method=RequestMethod.POST)
-	public ResponseEntity<Void> insert(@Valid @RequestBody User obj){
+	public ResponseEntity<Void> insert(@Valid @RequestBody UserNewDTO objNewDto){
+		User obj = service.fromDTO(objNewDto);
 		obj = service.insert(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).build();

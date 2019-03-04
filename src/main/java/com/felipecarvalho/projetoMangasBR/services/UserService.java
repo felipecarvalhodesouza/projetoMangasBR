@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.felipecarvalho.projetoMangasBR.domain.Collection;
 import com.felipecarvalho.projetoMangasBR.domain.User;
+import com.felipecarvalho.projetoMangasBR.dto.UserNewDTO;
 import com.felipecarvalho.projetoMangasBR.repositories.CollectionRepository;
 import com.felipecarvalho.projetoMangasBR.repositories.UserRepository;
 import com.felipecarvalho.projetoMangasBR.services.exceptions.DataIntegrityException;
@@ -54,5 +55,10 @@ public class UserService {
 	private void updateData(User newObj, User obj) {
 		newObj.setName(obj.getName());
 		newObj.setEmail(obj.getEmail());
+	}
+	
+	public User fromDTO(UserNewDTO objDto) {
+		User user = new User(null, objDto.getName(), objDto.getEmail(), objDto.getSenha());
+		return user;
 	}
 }

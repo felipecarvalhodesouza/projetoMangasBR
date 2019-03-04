@@ -8,4 +8,6 @@ import com.felipecarvalho.projetoMangasBR.domain.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer>{
 	
+	@org.springframework.transaction.annotation.Transactional(readOnly=true)
+	User findByEmail(String email);
 }
