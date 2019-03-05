@@ -76,10 +76,11 @@ public class ProjetoMangasBrApplication implements CommandLineRunner{
 		Volume v6 = new Volume(null, "Volume 6", t1, sdf.parse("10/2007"), 8.90);
 		Volume v7 = new Volume(null, "Volume 1", t3, sdf.parse("09/2007"), 10.90);
 		Volume v8 = new Volume(null, "Volume 2", t3, sdf.parse("10/2007"), 10.90);
+		Volume v9 = new Volume(null, "Volume 1", t2, sdf.parse("05/2012"), 15.90);
 		
 		titleRepository.saveAll(Arrays.asList(t1,t2,t3));
 		
-		volumeRepository.saveAll(Arrays.asList(v1,v2,v3,v4,v5,v6,v7,v8));
+		volumeRepository.saveAll(Arrays.asList(v1,v2,v3,v4,v5,v6,v7,v8,v9));
 		
 		User user1 = new User(null, "Felipe Carvalho de Souza", "desouzafelipecarvalho@gmail.com", "123");
 		

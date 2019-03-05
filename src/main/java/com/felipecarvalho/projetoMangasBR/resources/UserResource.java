@@ -68,6 +68,14 @@ public class UserResource {
 		return ResponseEntity.ok().body(col);
 	}
 	
+	@RequestMapping(value="/{userId}/collection/{titleId}", method=RequestMethod.PUT)
+	public ResponseEntity<Void> insertTitle(@Valid @PathVariable Integer userId, @PathVariable Integer titleId){
+		Collection col = collectionService.findByUser(userId);
+		col.setId(userId);
+		col = collectionService.insertTitle(col, titleId);
+		return ResponseEntity.noContent().build();
+	}
+	
 	@RequestMapping(value="/{userId}/collection/{titleId}", method=RequestMethod.GET)
 	public ResponseEntity<List<VolumeUser>> findCollectionVolumes(@PathVariable Integer userId, @PathVariable Integer titleId){
 		

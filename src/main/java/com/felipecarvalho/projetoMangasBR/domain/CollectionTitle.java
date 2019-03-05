@@ -1,6 +1,7 @@
 package com.felipecarvalho.projetoMangasBR.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -20,7 +21,7 @@ public class CollectionTitle implements Serializable{
 	private CollectionTitlePK id = new CollectionTitlePK();
 	
 	@OneToMany(mappedBy="collectionTitle", cascade = CascadeType.ALL)
-	private List<VolumeUser> volumesUser;
+	private List<VolumeUser> volumesUser = new ArrayList<>();;
 	
 	public CollectionTitle() {
 	}

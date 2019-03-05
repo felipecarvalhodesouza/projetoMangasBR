@@ -12,5 +12,5 @@ import com.felipecarvalho.projetoMangasBR.domain.Title;
 public interface TitleRepository extends JpaRepository<Title, Integer>{
 	
 	@Transactional(readOnly=true)
-	Page<Title> findDistinctByNameContaining(String name, Pageable pageRequest);
+	Page<Title> findDistinctByNameContainingIgnoreCase(String name, Pageable pageRequest);
 }

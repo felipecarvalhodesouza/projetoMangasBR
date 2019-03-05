@@ -32,6 +32,6 @@ public class TitleService {
 	
 	public Page<Title> search(String name, Integer page, Integer linesPerPage, String orderBy, String direction){
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
-		return repo.findDistinctByNameContaining(name, pageRequest);
+		return repo.findDistinctByNameContainingIgnoreCase(name, pageRequest);
 	}
 }
