@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.felipecarvalho.projetoMangasBR.services.exceptions.DataIntegrityException;
+import com.felipecarvalho.projetoMangasBR.services.exceptions.ObjectAlreadyExistsException;
 
 @ControllerAdvice
 public class ResourceExceptionHandler {
@@ -38,5 +39,12 @@ public class ResourceExceptionHandler {
 			 err.addError(x.getField(), x.getDefaultMessage());
 		 }
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
+	}
+	
+	@ExceptionHandler(ObjectAlreadyExistsException.class)
+	public ResponseEntity<StandardError> objectAlreadyExists(ObjectAlreadyExistsException e, HttpServletRequest request){
+		StandardError err = new StandardError(HttpStatus.UNPROCESSABLE_ENTITY.value(), e.getMessage(), System.currentTimeMillis());
+		
+		return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(err);
 	}
 }
