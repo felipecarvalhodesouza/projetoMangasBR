@@ -16,6 +16,7 @@ import com.felipecarvalho.projetoMangasBR.domain.Volume;
 import com.felipecarvalho.projetoMangasBR.resources.utils.URL;
 import com.felipecarvalho.projetoMangasBR.services.TitleService;
 import com.felipecarvalho.projetoMangasBR.services.VolumeService;
+import com.felipecarvalho.projetoMangasBR.services.exceptions.ObjectNotFoundException;
 
 @RestController
 @RequestMapping(value="/titles")
