@@ -7,12 +7,14 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.felipecarvalho.projetoMangasBR.domain.Collection;
+import com.felipecarvalho.projetoMangasBR.domain.Title;
 import com.felipecarvalho.projetoMangasBR.domain.User;
 import com.felipecarvalho.projetoMangasBR.dto.UserDTO;
 import com.felipecarvalho.projetoMangasBR.dto.UserNewDTO;
 import com.felipecarvalho.projetoMangasBR.repositories.CollectionRepository;
 import com.felipecarvalho.projetoMangasBR.repositories.UserRepository;
 import com.felipecarvalho.projetoMangasBR.services.exceptions.DataIntegrityException;
+import com.felipecarvalho.projetoMangasBR.services.exceptions.ObjectNotFoundException;
 
 @Service
 public class UserService {
@@ -25,7 +27,8 @@ public class UserService {
 	
 	public User find(Integer id) {
 		Optional<User> obj = repo.findById(id);
-		return obj.orElse(null);
+		return obj.orElseThrow(() -> new ObjectNotFoundException(
+				"Objeto não encontrado! Id: " + id + ", Tipo: " + User.class.getName()));
 	}
 	
 	public User update(User obj) {

@@ -22,6 +22,7 @@ import com.felipecarvalho.projetoMangasBR.dto.UserDTO;
 import com.felipecarvalho.projetoMangasBR.dto.UserNewDTO;
 import com.felipecarvalho.projetoMangasBR.services.CollectionService;
 import com.felipecarvalho.projetoMangasBR.services.UserService;
+import com.felipecarvalho.projetoMangasBR.services.exceptions.ObjectNotFoundException;
 
 @RestController
 @RequestMapping(value="/users")
@@ -64,8 +65,24 @@ public class UserResource {
 	
 	@RequestMapping(value="/{userId}/collection", method=RequestMethod.GET)
 	public ResponseEntity<Collection> findCollection(@PathVariable Integer userId){
+		service.find(userId);
 		Collection col = collectionService.findByUser(userId);
 		return ResponseEntity.ok().body(col);
+	}
+	
+	@RequestMapping(value="/{userId}/collection/{titleId}", method=RequestMethod.GET)
+	public ResponseEntity<List<VolumeUser>> findCollectionVolumes(@PathVariable Integer userId, @PathVariable Integer titleId){
+		service.find(userId);
+		
+		if(collectionService.findByUser(userId).getTitles().size()<(titleId)) {
+			throw new ObjectNotFoundException("O título informado não foi encontrado na coleção");
+		}
+		
+		Title title = collectionService.findByUser(userId).getTitles().get(titleId-1);
+		Collection collection = collectionService.findByUser(userId);
+
+		List<VolumeUser> list = collectionService.findTitleVolumes(collection, title);
+		return ResponseEntity.ok().body(list);
 	}
 	
 	@RequestMapping(value="/{userId}/collection/{titleId}", method=RequestMethod.PUT)
@@ -83,15 +100,4 @@ public class UserResource {
 		col = collectionService.removeTitle(col, titleId);
 		return ResponseEntity.noContent().build();
 	}
-	
-	@RequestMapping(value="/{userId}/collection/{titleId}", method=RequestMethod.GET)
-	public ResponseEntity<List<VolumeUser>> findCollectionVolumes(@PathVariable Integer userId, @PathVariable Integer titleId){
-		
-		Title title = collectionService.findByUser(userId).getTitles().get(titleId-1);
-		Collection collection = collectionService.findByUser(userId);
-
-		List<VolumeUser> list = collectionService.findTitleVolumes(collection, title);
-		return ResponseEntity.ok().body(list);
-	}
-
 }
