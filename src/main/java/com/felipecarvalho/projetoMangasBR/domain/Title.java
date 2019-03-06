@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -25,12 +26,16 @@ public class Title implements Serializable{
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
+	
+	@NotEmpty(message="Preenchimento obrigatório")
 	private String name;
 	
 	@ManyToOne
 	@JoinColumn(name="publisher_id")
 	private Publisher publisher;
+	
 	private boolean isFinished;
+	
 	private Date start;
 	private Date end;
 	

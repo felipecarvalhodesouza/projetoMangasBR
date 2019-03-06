@@ -2,17 +2,22 @@ package com.felipecarvalho.projetoMangasBR.resources;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.felipecarvalho.projetoMangasBR.domain.Title;
+import com.felipecarvalho.projetoMangasBR.domain.User;
 import com.felipecarvalho.projetoMangasBR.domain.Volume;
+import com.felipecarvalho.projetoMangasBR.dto.UserDTO;
 import com.felipecarvalho.projetoMangasBR.resources.utils.URL;
 import com.felipecarvalho.projetoMangasBR.services.TitleService;
 import com.felipecarvalho.projetoMangasBR.services.VolumeService;
@@ -32,6 +37,13 @@ public class TitleResource {
 		
 		Title obj = service.find(id);
 		return ResponseEntity.ok().body(obj);
+	}
+	
+	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
+	public ResponseEntity<Void> update(@Valid @RequestBody Title obj, @PathVariable Integer id){
+		obj.setId(id);
+		obj = service.update(obj);
+		return ResponseEntity.noContent().build();
 	}
 	
 	//entre chaves por ser um parâmetro de URL	

@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
+import com.felipecarvalho.projetoMangasBR.domain.Publisher;
 import com.felipecarvalho.projetoMangasBR.domain.Title;
 import com.felipecarvalho.projetoMangasBR.repositories.TitleRepository;
 import com.felipecarvalho.projetoMangasBR.services.exceptions.ObjectNotFoundException;
@@ -23,7 +24,13 @@ public class TitleService {
 		Optional<Title> obj = repo.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 		"Objeto não encontrado! Id: " + id + ", Tipo: " + Title.class.getName()));
-		}
+	}
+	
+	public Title update(Title obj) {
+		Title newObj = find(obj.getId());
+		updateData(newObj, obj);
+		return repo.save(newObj);
+	}
 	
 	public List<Title> findAll(){
 		return repo.findAll();
@@ -32,5 +39,11 @@ public class TitleService {
 	public Page<Title> search(String name, Integer page, Integer linesPerPage, String orderBy, String direction){
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		return repo.findDistinctByNameContainingIgnoreCase(name, pageRequest);
+	}
+	
+	private void updateData(Title newObj, Title obj) {
+		newObj.setName(obj.getName());
+		newObj.setFinished(obj.isFinished());
+		newObj.setEnd(obj.getEnd());
 	}
 }
