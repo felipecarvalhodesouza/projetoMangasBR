@@ -30,6 +30,9 @@ public class CollectionService {
 	private TitleRepository titleRepository;
 	
 	@Autowired
+	private CollectionRepository collectionRepository;
+	
+	@Autowired
 	private CollectionTitleRepository collectionTitleRepository;
 	
 	public Collection findByUser(Integer userId){
@@ -62,7 +65,30 @@ public class CollectionService {
 		title.getCollections().add(col);
 		col.getCollectionTitle().add(ct);
 		title.getCollectionsTitle().add(ct);
+
+		return col;
+	}
+	
+	public Collection removeTitle(Collection col, Integer titleId){
+		Title title = titleRepository.
+				findById(titleId).orElseThrow(() -> new ObjectNotFoundException(
+				"Objeto não encontrado! Id: " + titleId + ", Tipo: " + Title.class.getName()));
+		if(!col.getTitles().contains(title)) {
+			throw new ObjectNotFoundException("O título selecionado não existe na coleção");
+		}
 		
+		for(CollectionTitle ct : col.getCollectionTitle()) {
+			if (ct.getTitle().getId().equals(title.getId())) {
+				col.getCollectionTitle().remove(ct);
+				title.getCollectionsTitle().remove(ct);
+				collectionTitleRepository.delete(ct);
+				break;
+			}
+		}
+		
+		col.getTitles().remove(title);		
+		title.getCollections().remove(col);
+
 		return col;
 	}
 }

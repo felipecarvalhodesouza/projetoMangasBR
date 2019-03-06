@@ -76,6 +76,14 @@ public class UserResource {
 		return ResponseEntity.noContent().build();
 	}
 	
+	@RequestMapping(value="/{userId}/collection/{titleId}", method=RequestMethod.DELETE)
+	public ResponseEntity<Void> removeTitle(@Valid @PathVariable Integer userId, @PathVariable Integer titleId){
+		Collection col = collectionService.findByUser(userId);
+		col.setId(userId);
+		col = collectionService.removeTitle(col, titleId);
+		return ResponseEntity.noContent().build();
+	}
+	
 	@RequestMapping(value="/{userId}/collection/{titleId}", method=RequestMethod.GET)
 	public ResponseEntity<List<VolumeUser>> findCollectionVolumes(@PathVariable Integer userId, @PathVariable Integer titleId){
 		
