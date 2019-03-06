@@ -31,12 +31,15 @@ public class VolumeUser implements Serializable{
 		})
 	private CollectionTitle collectionTitle;
 	
+	private boolean doesHave;
+	
 	public VolumeUser() {
 	}
 	
 	public VolumeUser(CollectionTitle collectionTitle, Volume obj) {
 		this.collectionTitle = collectionTitle;
 		this.volume = obj;
+		this.doesHave = false;
 	}
 	
 	@JsonIgnore
@@ -58,6 +61,14 @@ public class VolumeUser implements Serializable{
 	
 	public Integer getTitleId(CollectionTitle obj) {
 		return obj.getTitle().getId();
+	}
+
+	public boolean getDoesHave() {
+		return doesHave;
+	}
+
+	public void setDoesHave(boolean doesHave) {
+		this.doesHave = doesHave;
 	}
 	
 }
