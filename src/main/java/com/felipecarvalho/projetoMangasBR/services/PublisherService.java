@@ -11,7 +11,10 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.felipecarvalho.projetoMangasBR.domain.Publisher;
+import com.felipecarvalho.projetoMangasBR.domain.Title;
+import com.felipecarvalho.projetoMangasBR.dto.TitleNewDTO;
 import com.felipecarvalho.projetoMangasBR.repositories.PublisherRepository;
+import com.felipecarvalho.projetoMangasBR.repositories.TitleRepository;
 import com.felipecarvalho.projetoMangasBR.services.exceptions.DataIntegrityException;
 
 @Service
@@ -19,6 +22,9 @@ public class PublisherService {
 	
 	@Autowired
 	private PublisherRepository repo;
+	
+	@Autowired
+	private TitleRepository titleRepository;
 	
 	public Publisher find(Integer id) {
 		Optional<Publisher> obj = repo.findById(id);
@@ -39,6 +45,11 @@ public class PublisherService {
 		return repo.save(obj);
 	}
 	
+	public Title insert(Title obj) {
+		obj.setId(null);
+		return titleRepository.save(obj);
+	}
+	
 	public Publisher update(Publisher obj) {
 		Publisher newObj = find(obj.getId());
 		updateData(newObj, obj);
@@ -57,5 +68,14 @@ public class PublisherService {
 	
 	private void updateData(Publisher newObj, Publisher obj) {
 		newObj.setName(obj.getName());
+	}
+	
+	public Title fromDTO(TitleNewDTO objDto, Publisher publisher) {
+		Title title = new Title();
+		title.setName(objDto.getName());
+		title.setStart(objDto.getStart());
+		title.setEnd(objDto.getEnd());
+		title.setPublisher(publisher);
+		return title;
 	}
 }

@@ -67,7 +67,7 @@ public class TitleResource {
 			@RequestParam(value="name", defaultValue="")String name,
 			@RequestParam(value="page", defaultValue="0")Integer page,
 			@RequestParam(value="linesPerPage", defaultValue="24") Integer linesPerPage,
-			@RequestParam(value="orderBy", defaultValue="name")String orderBy,
+			@RequestParam(value="orderBy", defaultValue="id")String orderBy,
 			@RequestParam(value="direction", defaultValue="ASC")String direction) {
 		String nameDecoded = URL.decodeParam(name);
 		Page<Title> list = service.search(nameDecoded, page, linesPerPage, orderBy, direction);

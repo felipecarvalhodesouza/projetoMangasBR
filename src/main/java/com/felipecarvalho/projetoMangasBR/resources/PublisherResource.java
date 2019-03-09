@@ -17,7 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.felipecarvalho.projetoMangasBR.domain.Publisher;
+import com.felipecarvalho.projetoMangasBR.domain.Title;
+import com.felipecarvalho.projetoMangasBR.dto.TitleNewDTO;
 import com.felipecarvalho.projetoMangasBR.services.PublisherService;
+import com.felipecarvalho.projetoMangasBR.services.TitleService;
 
 @RestController
 @RequestMapping(value="/publishers")
@@ -37,6 +40,15 @@ public class PublisherResource {
 	public ResponseEntity<Void> insert(@Valid @RequestBody Publisher obj){
 		obj = service.insert(obj);
 		//from current request é o request que está utilizando o post (localhost:8080/categorias)
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+		return ResponseEntity.created(uri).build();
+	}
+	
+	@RequestMapping(value="/{id}", method=RequestMethod.POST)
+	public ResponseEntity<Void> insert(@Valid @RequestBody TitleNewDTO newObj, @PathVariable Integer id){
+		Publisher pub = service.find(id);
+		Title obj = service.fromDTO(newObj, pub);
+		obj = service.insert(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
