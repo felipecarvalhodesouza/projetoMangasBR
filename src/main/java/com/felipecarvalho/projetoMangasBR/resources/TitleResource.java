@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.felipecarvalho.projetoMangasBR.domain.Review;
 import com.felipecarvalho.projetoMangasBR.domain.Title;
-import com.felipecarvalho.projetoMangasBR.domain.User;
 import com.felipecarvalho.projetoMangasBR.domain.Volume;
-import com.felipecarvalho.projetoMangasBR.dto.UserDTO;
 import com.felipecarvalho.projetoMangasBR.resources.utils.URL;
+import com.felipecarvalho.projetoMangasBR.services.ReviewService;
 import com.felipecarvalho.projetoMangasBR.services.TitleService;
 import com.felipecarvalho.projetoMangasBR.services.VolumeService;
 
@@ -31,6 +31,9 @@ public class TitleResource {
 	
 	@Autowired
 	private VolumeService volumeService;
+	
+	@Autowired
+	private ReviewService reviewService;
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	public ResponseEntity<Title> find(@PathVariable Integer id){
@@ -50,6 +53,12 @@ public class TitleResource {
 	@RequestMapping(value="/{titleId}/volumes", method=RequestMethod.GET)
 	public ResponseEntity<List<Volume>> findVolumes(@PathVariable Integer titleId){
 		List<Volume> list = volumeService.findByTitle(titleId);
+		return ResponseEntity.ok().body(list);
+	}
+	
+	@RequestMapping(value="/{titleId}/reviews", method=RequestMethod.GET)
+	public ResponseEntity<List<Review>> findReviews(@PathVariable Integer titleId){
+		List<Review> list = reviewService.findByTitle(titleId);
 		return ResponseEntity.ok().body(list);
 	}
 

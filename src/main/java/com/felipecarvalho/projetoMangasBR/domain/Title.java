@@ -47,6 +47,10 @@ public class Title implements Serializable{
 	@OneToMany(mappedBy="id.title")
 	private Set<CollectionTitle> collectionsTitle = new HashSet<>();
 	
+	@JsonIgnore
+	@OneToMany(mappedBy="title")
+	private List<Review> reviews = new ArrayList<>();
+	
 	public Title() {
 	}
 
@@ -131,6 +135,14 @@ public class Title implements Serializable{
 
 	public void setCollectionsTitle(Set<CollectionTitle> collectionsTitle) {
 		this.collectionsTitle = collectionsTitle;
+	}
+
+	public List<Review> getReviews() {
+		return reviews;
+	}
+
+	public void setReviews(List<Review> reviews) {
+		this.reviews = reviews;
 	}
 
 	@Override

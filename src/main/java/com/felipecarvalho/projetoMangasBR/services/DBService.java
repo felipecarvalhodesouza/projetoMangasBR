@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.felipecarvalho.projetoMangasBR.domain.Collection;
 import com.felipecarvalho.projetoMangasBR.domain.CollectionTitle;
 import com.felipecarvalho.projetoMangasBR.domain.Publisher;
+import com.felipecarvalho.projetoMangasBR.domain.Review;
 import com.felipecarvalho.projetoMangasBR.domain.Title;
 import com.felipecarvalho.projetoMangasBR.domain.User;
 import com.felipecarvalho.projetoMangasBR.domain.Volume;
@@ -18,6 +19,7 @@ import com.felipecarvalho.projetoMangasBR.domain.VolumeUser;
 import com.felipecarvalho.projetoMangasBR.repositories.CollectionRepository;
 import com.felipecarvalho.projetoMangasBR.repositories.CollectionTitleRepository;
 import com.felipecarvalho.projetoMangasBR.repositories.PublisherRepository;
+import com.felipecarvalho.projetoMangasBR.repositories.ReviewRepository;
 import com.felipecarvalho.projetoMangasBR.repositories.TitleRepository;
 import com.felipecarvalho.projetoMangasBR.repositories.UserRepository;
 import com.felipecarvalho.projetoMangasBR.repositories.VolumeRepository;
@@ -46,6 +48,9 @@ public class DBService {
 
 	@Autowired
 	private VolumeUserRepository volumeUserRepository;
+	
+	@Autowired
+	private ReviewRepository reviewRepository;
 
 	public void instantiateTestDataBase() throws ParseException {
 
@@ -56,6 +61,8 @@ public class DBService {
 		publisherRepository.saveAll(Arrays.asList(p1, p2, p3));
 
 		SimpleDateFormat sdf = new SimpleDateFormat("MM/yyyy");
+		sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+		SimpleDateFormat sdf2 = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 		sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
 
 		Title t1 = new Title(null, "Naruto", p1, true, sdf.parse("05/2007"), sdf.parse("06/2015"));
@@ -105,6 +112,14 @@ public class DBService {
 
 		volumeUserRepository.saveAll(Arrays.asList(vu1, vu2, vu3, vu4, vu5, vu6));
 		volumeUserRepository.saveAll(Arrays.asList(vu7, vu8));
+		
+		Review r1 = new Review(null, t1, 10, "Naruto é massa", sdf2.parse("03/02/2018 13:45"), user1);
+		Review r2 = new Review(null, t1, 8, "Narutão da hora", sdf2.parse("08/01/2017 05:45"), user1);
+		Review r3 = new Review(null, t2, 7, "Podia ser melhor", sdf2.parse("18/12/2016 23:15"), user1);
+		
+		user1.getGivenReviews().addAll(Arrays.asList(r1,r2,r3));
+		
+		reviewRepository.saveAll(Arrays.asList(r1,r2,r3));
 
 	}
 }

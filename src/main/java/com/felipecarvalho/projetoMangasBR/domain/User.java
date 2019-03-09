@@ -1,6 +1,8 @@
 package com.felipecarvalho.projetoMangasBR.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -8,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
@@ -39,6 +42,10 @@ public class User implements Serializable{
             cascade =  CascadeType.ALL,
             mappedBy = "owner")
 	private Collection collection;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy="author")
+	private List<Review> givenReviews = new ArrayList<>();
 	
 	public User() {
 	}
@@ -89,6 +96,14 @@ public class User implements Serializable{
 
 	public void setCollection(Collection collection) {
 		this.collection = collection;
+	}
+
+	public List<Review> getGivenReviews() {
+		return givenReviews;
+	}
+
+	public void setGivenReviews(List<Review> givenReviews) {
+		this.givenReviews = givenReviews;
 	}
 
 	@Override
