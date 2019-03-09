@@ -1,5 +1,6 @@
 package com.felipecarvalho.projetoMangasBR.resources;
 
+import java.net.URI;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -13,10 +14,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.felipecarvalho.projetoMangasBR.domain.Publisher;
 import com.felipecarvalho.projetoMangasBR.domain.Review;
 import com.felipecarvalho.projetoMangasBR.domain.Title;
 import com.felipecarvalho.projetoMangasBR.domain.Volume;
+import com.felipecarvalho.projetoMangasBR.dto.TitleNewDTO;
 import com.felipecarvalho.projetoMangasBR.resources.utils.URL;
 import com.felipecarvalho.projetoMangasBR.services.ReviewService;
 import com.felipecarvalho.projetoMangasBR.services.TitleService;
@@ -60,6 +64,15 @@ public class TitleResource {
 	public ResponseEntity<List<Volume>> findVolumes(@PathVariable Integer titleId){
 		List<Volume> list = volumeService.findByTitle(titleId);
 		return ResponseEntity.ok().body(list);
+	}
+	
+	@RequestMapping(value="/{id}", method=RequestMethod.POST)
+	public ResponseEntity<Void> insert(@Valid @RequestBody Volume obj, @PathVariable Integer id){
+		Title title = service.find(id);
+		obj.setTitle(title);
+		obj = service.insertVolume(obj);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+		return ResponseEntity.created(uri).build();
 	}
 	
 	@RequestMapping(value="/{titleId}/reviews", method=RequestMethod.GET)

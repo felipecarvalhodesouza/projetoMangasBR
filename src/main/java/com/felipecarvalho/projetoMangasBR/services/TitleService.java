@@ -2,6 +2,9 @@ package com.felipecarvalho.projetoMangasBR.services;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -10,8 +13,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
+import com.felipecarvalho.projetoMangasBR.domain.CollectionTitle;
 import com.felipecarvalho.projetoMangasBR.domain.Title;
+import com.felipecarvalho.projetoMangasBR.domain.Volume;
+import com.felipecarvalho.projetoMangasBR.domain.VolumeUser;
 import com.felipecarvalho.projetoMangasBR.repositories.TitleRepository;
+import com.felipecarvalho.projetoMangasBR.repositories.VolumeRepository;
 import com.felipecarvalho.projetoMangasBR.services.exceptions.DataIntegrityException;
 import com.felipecarvalho.projetoMangasBR.services.exceptions.ObjectNotFoundException;
 
@@ -20,6 +27,9 @@ public class TitleService {
 	
 	@Autowired
 	private TitleRepository repo;
+	
+	@Autowired
+	private VolumeRepository volumeRepository;
 	
 	public Title find(Integer id) {
 		Optional<Title> obj = repo.findById(id);
@@ -56,5 +66,13 @@ public class TitleService {
 		newObj.setName(obj.getName());
 		newObj.setFinished(obj.isFinished());
 		newObj.setEnd(obj.getEnd());
+	}
+
+	public Volume insertVolume(@Valid Volume obj) {
+		Set<CollectionTitle> teste = obj.getTitle().getCollectionsTitle();
+		for(CollectionTitle x : teste) {
+			x.getVolumesUser().add(new VolumeUser(x, obj));
+		}
+		return volumeRepository.save(obj);
 	}
 }
