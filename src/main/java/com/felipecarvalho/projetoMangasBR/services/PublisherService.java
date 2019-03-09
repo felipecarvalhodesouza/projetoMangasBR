@@ -12,10 +12,12 @@ import org.springframework.stereotype.Service;
 
 import com.felipecarvalho.projetoMangasBR.domain.Publisher;
 import com.felipecarvalho.projetoMangasBR.domain.Title;
+import com.felipecarvalho.projetoMangasBR.domain.User;
 import com.felipecarvalho.projetoMangasBR.dto.TitleNewDTO;
 import com.felipecarvalho.projetoMangasBR.repositories.PublisherRepository;
 import com.felipecarvalho.projetoMangasBR.repositories.TitleRepository;
 import com.felipecarvalho.projetoMangasBR.services.exceptions.DataIntegrityException;
+import com.felipecarvalho.projetoMangasBR.services.exceptions.ObjectNotFoundException;
 
 @Service
 public class PublisherService {
@@ -28,7 +30,8 @@ public class PublisherService {
 	
 	public Publisher find(Integer id) {
 		Optional<Publisher> obj = repo.findById(id);
-		return obj.orElse(null);
+		return obj.orElseThrow(() -> new ObjectNotFoundException(
+				"Objeto não encontrado! Id: " + id + ", Tipo: " + Publisher.class.getName()));
 	}
 	
 	public List<Publisher> findAll(){
@@ -77,5 +80,9 @@ public class PublisherService {
 		title.setEnd(objDto.getEnd());
 		title.setPublisher(publisher);
 		return title;
+	}
+
+	public List<Title> findTitles(Integer id) {
+		return find(id).getPublications();
 	}
 }

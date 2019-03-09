@@ -36,6 +36,13 @@ public class PublisherResource {
 		return ResponseEntity.ok().body(obj);
 	}
 	
+	@RequestMapping(value="/{id}/titles", method=RequestMethod.GET)
+	public ResponseEntity<List<Title>> findTitles(@PathVariable Integer id){
+		
+		List<Title> list = service.findTitles(id);
+		return ResponseEntity.ok().body(list);
+	}
+	
 	@RequestMapping(method=RequestMethod.POST)
 	public ResponseEntity<Void> insert(@Valid @RequestBody Publisher obj){
 		obj = service.insert(obj);
