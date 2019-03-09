@@ -49,6 +49,12 @@ public class TitleResource {
 		return ResponseEntity.noContent().build();
 	}
 	
+	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
+	public ResponseEntity<Void> delete(@PathVariable Integer id) {
+		service.delete(id);
+		return ResponseEntity.noContent().build();
+	}
+	
 	//entre chaves por ser um parâmetro de URL	
 	@RequestMapping(value="/{titleId}/volumes", method=RequestMethod.GET)
 	public ResponseEntity<List<Volume>> findVolumes(@PathVariable Integer titleId){

@@ -46,7 +46,6 @@ public class PublisherResource {
 	@RequestMapping(method=RequestMethod.POST)
 	public ResponseEntity<Void> insert(@Valid @RequestBody Publisher obj){
 		obj = service.insert(obj);
-		//from current request é o request que está utilizando o post (localhost:8080/categorias)
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
@@ -56,7 +55,7 @@ public class PublisherResource {
 		Publisher pub = service.find(id);
 		Title obj = service.fromDTO(newObj, pub);
 		obj = service.insert(obj);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+		URI uri = ServletUriComponentsBuilder.fromPath("http://localhost:8080/titles").path("/{id}").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
 	
