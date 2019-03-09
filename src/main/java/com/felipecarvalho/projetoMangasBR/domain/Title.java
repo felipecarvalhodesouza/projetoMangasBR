@@ -51,6 +51,9 @@ public class Title implements Serializable{
 	@OneToMany(mappedBy="title")
 	private List<Review> reviews = new ArrayList<>();
 	
+	@SuppressWarnings("unused")
+	private Double score;
+	
 	public Title() {
 	}
 
@@ -144,6 +147,10 @@ public class Title implements Serializable{
 	public void setReviews(List<Review> reviews) {
 		this.reviews = reviews;
 	}
+	
+	public Double getScore() {
+		return calculateScore();
+	}
 
 	@Override
 	public int hashCode() {
@@ -168,6 +175,17 @@ public class Title implements Serializable{
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+	
+	private Double calculateScore() {
+		if(reviews.isEmpty()) {
+			return null;
+		}
+		double soma = 0.0;
+		for(Review x : reviews) { 
+			soma = soma + x.getScore();
+		}
+		return soma/reviews.size();
 	}
 
 }
