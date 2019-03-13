@@ -62,6 +62,7 @@ public class TitleResource {
 	//entre chaves por ser um parâmetro de URL	
 	@RequestMapping(value="/{titleId}/volumes", method=RequestMethod.GET)
 	public ResponseEntity<List<Volume>> findVolumes(@PathVariable Integer titleId){
+		find(titleId);
 		List<Volume> list = volumeService.findByTitle(titleId);
 		return ResponseEntity.ok().body(list);
 	}

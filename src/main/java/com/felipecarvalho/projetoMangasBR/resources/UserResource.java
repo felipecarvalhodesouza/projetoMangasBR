@@ -21,6 +21,7 @@ import com.felipecarvalho.projetoMangasBR.domain.VolumeUser;
 import com.felipecarvalho.projetoMangasBR.dto.UserDTO;
 import com.felipecarvalho.projetoMangasBR.dto.UserNewDTO;
 import com.felipecarvalho.projetoMangasBR.services.CollectionService;
+import com.felipecarvalho.projetoMangasBR.services.TitleService;
 import com.felipecarvalho.projetoMangasBR.services.UserService;
 import com.felipecarvalho.projetoMangasBR.services.exceptions.ObjectNotFoundException;
 
@@ -33,6 +34,9 @@ public class UserResource {
 	
 	@Autowired
 	private CollectionService collectionService;
+	
+	@Autowired
+	private TitleService titleService;
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	public ResponseEntity<User> find(@PathVariable Integer id){
@@ -85,13 +89,18 @@ public class UserResource {
 		return ResponseEntity.ok().body(list);
 	}
 	
-	@RequestMapping(value="/{userId}/collection/{titleId}", method=RequestMethod.PUT)
+	@RequestMapping(value="/{userId}/collection/{titleId}", method=RequestMethod.POST)
 	public ResponseEntity<Void> insertTitle(@Valid @PathVariable Integer userId, @PathVariable Integer titleId){
 		Collection col = collectionService.findByUser(userId);
 		col.setId(userId);
 		col = collectionService.insertTitle(col, titleId);
-		return ResponseEntity.noContent().build();
+		String location = ServletUriComponentsBuilder.fromCurrentRequest().build().toString();
+		location = location.substring(0, location.length()-titleId.toString().length());
+		Title title = titleService.find(titleId);
+		URI uri = ServletUriComponentsBuilder.fromPath(location).path(Integer.toString(col.getTitles().indexOf(title) + 1)).buildAndExpand(col.getId()).toUri();
+		return ResponseEntity.created(uri).build();
 	}
+	
 	
 	@RequestMapping(value="/{userId}/collection/{titleId}", method=RequestMethod.DELETE)
 	public ResponseEntity<Void> removeTitle(@Valid @PathVariable Integer userId, @PathVariable Integer titleId){

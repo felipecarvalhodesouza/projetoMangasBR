@@ -36,6 +36,9 @@ public class CollectionService {
 	private CollectionTitleRepository collectionTitleRepository;
 	
 	public Collection findByUser(Integer userId){
+		if(repo.findCollection(userId)==null) {
+			throw new ObjectNotFoundException("O usuário pesquisado não existe");
+		}
 		return repo.findCollection(userId);
 	}
 	
