@@ -29,6 +29,9 @@ public class PublisherResource {
 	@Autowired
 	private PublisherService service;
 	
+	@Autowired
+	private TitleService titleService;
+	
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	public ResponseEntity<Publisher> find(@PathVariable Integer id){
 		
@@ -55,7 +58,9 @@ public class PublisherResource {
 		Publisher pub = service.find(id);
 		Title obj = service.fromDTO(newObj, pub);
 		obj = service.insert(obj);
-		URI uri = ServletUriComponentsBuilder.fromPath("http://localhost:8080/titles").path("/{id}").buildAndExpand(obj.getId()).toUri();
+		String location = ServletUriComponentsBuilder.fromCurrentRequest().build().toString();
+		location = location.substring(0,location.length()-(Integer.toString(id).length()+11));
+		URI uri = ServletUriComponentsBuilder.fromPath(location + "titles/").path(Integer.toString(titleService.findAll().indexOf(obj) + 1)).buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
 	
