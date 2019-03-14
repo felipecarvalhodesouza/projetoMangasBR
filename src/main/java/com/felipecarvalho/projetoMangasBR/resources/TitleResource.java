@@ -16,11 +16,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.felipecarvalho.projetoMangasBR.domain.Publisher;
 import com.felipecarvalho.projetoMangasBR.domain.Review;
 import com.felipecarvalho.projetoMangasBR.domain.Title;
 import com.felipecarvalho.projetoMangasBR.domain.Volume;
-import com.felipecarvalho.projetoMangasBR.dto.TitleNewDTO;
+import com.felipecarvalho.projetoMangasBR.dto.VolumeDTO;
 import com.felipecarvalho.projetoMangasBR.resources.utils.URL;
 import com.felipecarvalho.projetoMangasBR.services.ReviewService;
 import com.felipecarvalho.projetoMangasBR.services.TitleService;
@@ -59,12 +58,12 @@ public class TitleResource {
 		return ResponseEntity.noContent().build();
 	}
 	
-	//entre chaves por ser um parâmetro de URL	
 	@RequestMapping(value="/{titleId}/volumes", method=RequestMethod.GET)
-	public ResponseEntity<List<Volume>> findVolumes(@PathVariable Integer titleId){
+	public ResponseEntity<List<VolumeDTO>> findVolumes(@PathVariable Integer titleId){
 		find(titleId);
 		List<Volume> list = volumeService.findByTitle(titleId);
-		return ResponseEntity.ok().body(list);
+		List<VolumeDTO> listDto = volumeService.toDto(list);
+		return ResponseEntity.ok().body(listDto);
 	}
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.POST)

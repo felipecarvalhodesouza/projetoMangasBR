@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
@@ -29,6 +30,8 @@ public class Volume implements Serializable{
 	@ManyToOne
 	@JoinColumn(name="title_id")
 	private Title title;
+	
+	@JsonFormat(pattern="MM/yyyy")
 	private Date date;
 	private Double price;
 	
@@ -57,6 +60,10 @@ public class Volume implements Serializable{
 
 	public String getName() {
 		return name;
+	}
+	
+	public String getTitleName() {
+		return title.getName();
 	}
 
 	public void setName(String name) {
