@@ -25,6 +25,8 @@ import com.felipecarvalho.projetoMangasBR.services.ReviewService;
 import com.felipecarvalho.projetoMangasBR.services.TitleService;
 import com.felipecarvalho.projetoMangasBR.services.VolumeService;
 
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping(value="/titles")
 public class TitleResource {
@@ -38,6 +40,7 @@ public class TitleResource {
 	@Autowired
 	private ReviewService reviewService;
 	
+	@ApiOperation(value="Busca de título por id")
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	public ResponseEntity<Title> find(@PathVariable Integer id){
 		
@@ -45,6 +48,7 @@ public class TitleResource {
 		return ResponseEntity.ok().body(obj);
 	}
 	
+	@ApiOperation(value="Edição de usuário por id")
 	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
 	public ResponseEntity<Void> update(@Valid @RequestBody Title obj, @PathVariable Integer id){
 		obj.setId(id);
@@ -52,12 +56,14 @@ public class TitleResource {
 		return ResponseEntity.noContent().build();
 	}
 	
+	@ApiOperation(value="Deleção de usuário por id")
 	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
 	public ResponseEntity<Void> delete(@PathVariable Integer id) {
 		service.delete(id);
 		return ResponseEntity.noContent().build();
 	}
 	
+	@ApiOperation(value="Busca os volumes de determinado título")
 	@RequestMapping(value="/{titleId}/volumes", method=RequestMethod.GET)
 	public ResponseEntity<List<VolumeDTO>> findVolumes(@PathVariable Integer titleId){
 		find(titleId);
@@ -66,6 +72,7 @@ public class TitleResource {
 		return ResponseEntity.ok().body(listDto);
 	}
 	
+	@ApiOperation(value="Insere um novo volume em determinado título")
 	@RequestMapping(value="/{id}", method=RequestMethod.POST)
 	public ResponseEntity<Void> insert(@Valid @RequestBody Volume obj, @PathVariable Integer id){
 		Title title = service.find(id);
@@ -75,12 +82,14 @@ public class TitleResource {
 		return ResponseEntity.created(uri).build();
 	}
 	
+	@ApiOperation(value="Busca as reviews de determinado título")
 	@RequestMapping(value="/{titleId}/reviews", method=RequestMethod.GET)
 	public ResponseEntity<List<Review>> findReviews(@PathVariable Integer titleId){
 		List<Review> list = reviewService.findByTitle(titleId);
 		return ResponseEntity.ok().body(list);
 	}
-
+	
+	@ApiOperation(value="Busca de títulos por parâmetros com paginação")
 	@RequestMapping(method=RequestMethod.GET)
 	public ResponseEntity<Page<Title>> findPage(
 			@RequestParam(value="name", defaultValue="")String name,

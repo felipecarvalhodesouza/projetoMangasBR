@@ -7,7 +7,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.felipecarvalho.projetoMangasBR.domain.Title;
 import com.felipecarvalho.projetoMangasBR.domain.Volume;
 import com.felipecarvalho.projetoMangasBR.dto.VolumeDTO;
 import com.felipecarvalho.projetoMangasBR.repositories.VolumeRepository;
@@ -26,7 +25,7 @@ public class VolumeService {
 	public Volume find(Integer id) {
 		Optional<Volume> obj = repo.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
-		"Objeto não encontrado! Id: " + id + ", Tipo: " + Title.class.getName()));
+		"Objeto não encontrado! Id: " + id + ", Tipo: " + Volume.class.getName()));
 	}
 
 	public List<VolumeDTO> toDto(List<Volume> list) {

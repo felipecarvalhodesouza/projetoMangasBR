@@ -25,6 +25,8 @@ import com.felipecarvalho.projetoMangasBR.services.TitleService;
 import com.felipecarvalho.projetoMangasBR.services.UserService;
 import com.felipecarvalho.projetoMangasBR.services.exceptions.ObjectNotFoundException;
 
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping(value="/users")
 public class UserResource {
@@ -38,6 +40,7 @@ public class UserResource {
 	@Autowired
 	private TitleService titleService;
 	
+	@ApiOperation(value="Busca de usuário por id")
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	public ResponseEntity<User> find(@PathVariable Integer id){
 		
@@ -45,6 +48,7 @@ public class UserResource {
 		return ResponseEntity.ok().body(obj);
 	}
 	
+	@ApiOperation(value="Edição de usuário por id")
 	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
 	public ResponseEntity<Void> update(@Valid @RequestBody UserDTO objDto, @PathVariable Integer id){
 		User obj = service.fromDTO(objDto);
@@ -53,12 +57,14 @@ public class UserResource {
 		return ResponseEntity.noContent().build();
 	}
 	
+	@ApiOperation(value="Deleção de usuário por id")
 	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
 	public ResponseEntity<Void> delete(@PathVariable Integer id) {
 		service.delete(id);
 		return ResponseEntity.noContent().build();
 	}
 	
+	@ApiOperation(value="Inserção de usuário")
 	@RequestMapping(method=RequestMethod.POST)
 	public ResponseEntity<Void> insert(@Valid @RequestBody UserNewDTO objNewDto){
 		User obj = service.fromDTO(objNewDto);
@@ -67,6 +73,7 @@ public class UserResource {
 		return ResponseEntity.created(uri).build();
 	}
 	
+	@ApiOperation(value="Busca a coleção de um usuário por seu id")
 	@RequestMapping(value="/{userId}/collection", method=RequestMethod.GET)
 	public ResponseEntity<Collection> findCollection(@PathVariable Integer userId){
 		service.find(userId);
@@ -74,6 +81,7 @@ public class UserResource {
 		return ResponseEntity.ok().body(col);
 	}
 	
+	@ApiOperation(value="Busca um título específico da coleção de um usuário")
 	@RequestMapping(value="/{userId}/collection/{titleId}", method=RequestMethod.GET)
 	public ResponseEntity<List<VolumeUser>> findCollectionVolumes(@PathVariable Integer userId, @PathVariable Integer titleId){
 		service.find(userId);
@@ -89,6 +97,7 @@ public class UserResource {
 		return ResponseEntity.ok().body(list);
 	}
 	
+	@ApiOperation(value="Inserção por id de um título na coleção de um usuário")
 	@RequestMapping(value="/{userId}/collection/{titleId}", method=RequestMethod.POST)
 	public ResponseEntity<Void> insertTitle(@Valid @PathVariable Integer userId, @PathVariable Integer titleId){
 		Collection col = collectionService.findByUser(userId);
@@ -101,7 +110,7 @@ public class UserResource {
 		return ResponseEntity.created(uri).build();
 	}
 	
-	
+	@ApiOperation(value="Deleção por id de um título na coleção de um usuário")
 	@RequestMapping(value="/{userId}/collection/{titleId}", method=RequestMethod.DELETE)
 	public ResponseEntity<Void> removeTitle(@Valid @PathVariable Integer userId, @PathVariable Integer titleId){
 		Collection col = collectionService.findByUser(userId);

@@ -7,9 +7,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.felipecarvalho.projetoMangasBR.domain.Volume;
 import com.felipecarvalho.projetoMangasBR.services.VolumeService;
+
+import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping(value="/volumes")
@@ -18,6 +19,7 @@ public class VolumeResource {
 	@Autowired
 	private VolumeService service;
 	
+	@ApiOperation(value="Busca de volume por id")
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	public ResponseEntity<Volume> find(@PathVariable Integer id){
 		

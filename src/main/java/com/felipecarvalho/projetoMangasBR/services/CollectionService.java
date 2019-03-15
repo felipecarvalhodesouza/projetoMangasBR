@@ -30,9 +30,6 @@ public class CollectionService {
 	private TitleRepository titleRepository;
 	
 	@Autowired
-	private CollectionRepository collectionRepository;
-	
-	@Autowired
 	private CollectionTitleRepository collectionTitleRepository;
 	
 	public Collection findByUser(Integer userId){

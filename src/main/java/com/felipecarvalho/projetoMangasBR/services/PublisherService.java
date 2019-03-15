@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import com.felipecarvalho.projetoMangasBR.domain.Publisher;
 import com.felipecarvalho.projetoMangasBR.domain.Title;
-import com.felipecarvalho.projetoMangasBR.domain.User;
 import com.felipecarvalho.projetoMangasBR.dto.TitleNewDTO;
 import com.felipecarvalho.projetoMangasBR.repositories.PublisherRepository;
 import com.felipecarvalho.projetoMangasBR.repositories.TitleRepository;

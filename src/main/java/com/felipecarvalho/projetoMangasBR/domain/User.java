@@ -44,7 +44,7 @@ public class User implements Serializable{
 	private Collection collection;
 	
 	@JsonIgnore
-	@OneToMany(mappedBy="author")
+	@OneToMany(mappedBy="author", cascade = CascadeType.ALL)
 	private List<Review> givenReviews = new ArrayList<>();
 	
 	public User() {

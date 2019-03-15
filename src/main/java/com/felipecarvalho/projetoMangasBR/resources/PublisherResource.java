@@ -22,6 +22,8 @@ import com.felipecarvalho.projetoMangasBR.dto.TitleNewDTO;
 import com.felipecarvalho.projetoMangasBR.services.PublisherService;
 import com.felipecarvalho.projetoMangasBR.services.TitleService;
 
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping(value="/publishers")
 public class PublisherResource {
@@ -32,6 +34,7 @@ public class PublisherResource {
 	@Autowired
 	private TitleService titleService;
 	
+	@ApiOperation(value="Busca de editora por id")
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	public ResponseEntity<Publisher> find(@PathVariable Integer id){
 		
@@ -39,6 +42,7 @@ public class PublisherResource {
 		return ResponseEntity.ok().body(obj);
 	}
 	
+	@ApiOperation(value="Busca de títulos de determinada editora")
 	@RequestMapping(value="/{id}/titles", method=RequestMethod.GET)
 	public ResponseEntity<List<Title>> findTitles(@PathVariable Integer id){
 		
@@ -46,6 +50,7 @@ public class PublisherResource {
 		return ResponseEntity.ok().body(list);
 	}
 	
+	@ApiOperation(value="Inserção de editora")
 	@RequestMapping(method=RequestMethod.POST)
 	public ResponseEntity<Void> insert(@Valid @RequestBody Publisher obj){
 		obj = service.insert(obj);
@@ -53,6 +58,7 @@ public class PublisherResource {
 		return ResponseEntity.created(uri).build();
 	}
 	
+	@ApiOperation(value="Inserção de um título para determinada editora")
 	@RequestMapping(value="/{id}", method=RequestMethod.POST)
 	public ResponseEntity<Void> insert(@Valid @RequestBody TitleNewDTO newObj, @PathVariable Integer id){
 		Publisher pub = service.find(id);
@@ -64,12 +70,14 @@ public class PublisherResource {
 		return ResponseEntity.created(uri).build();
 	}
 	
+	@ApiOperation(value="Busca de todas as editoras")
 	@RequestMapping(method=RequestMethod.GET)
 	public ResponseEntity<List<Publisher>> findAll() {
 		List<Publisher> list = service.findAll();
 		return ResponseEntity.ok().body(list);
 	}
 	
+	@ApiOperation(value="Busca de editoras por paginação")
 	@RequestMapping(value="/page", method=RequestMethod.GET)
 	public ResponseEntity<Page<Publisher>> findPage(
 			@RequestParam(value="page", defaultValue="0")Integer page,
@@ -80,6 +88,7 @@ public class PublisherResource {
 		return ResponseEntity.ok().body(list);
 	}
 	
+	@ApiOperation(value="Edição de editora por id")
 	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
 	public ResponseEntity<Void> update(@Valid @RequestBody Publisher obj, @PathVariable Integer id){
 		obj.setId(id);
@@ -87,6 +96,7 @@ public class PublisherResource {
 		return ResponseEntity.noContent().build();
 	}
 	
+	@ApiOperation(value="Deleção de editora por id")
 	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
 	public ResponseEntity<Void> delete(@PathVariable Integer id) {
 		service.delete(id);
