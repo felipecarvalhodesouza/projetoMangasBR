@@ -8,10 +8,13 @@ import org.springframework.stereotype.Service;
 
 import com.felipecarvalho.projetoMangasBR.domain.Collection;
 import com.felipecarvalho.projetoMangasBR.domain.User;
+import com.felipecarvalho.projetoMangasBR.domain.enums.Perfil;
 import com.felipecarvalho.projetoMangasBR.dto.UserDTO;
 import com.felipecarvalho.projetoMangasBR.dto.UserNewDTO;
 import com.felipecarvalho.projetoMangasBR.repositories.CollectionRepository;
 import com.felipecarvalho.projetoMangasBR.repositories.UserRepository;
+import com.felipecarvalho.projetoMangasBR.security.UserSS;
+import com.felipecarvalho.projetoMangasBR.services.exceptions.AuthorizationException;
 import com.felipecarvalho.projetoMangasBR.services.exceptions.DataIntegrityException;
 import com.felipecarvalho.projetoMangasBR.services.exceptions.ObjectNotFoundException;
 
@@ -28,6 +31,12 @@ public class UserService {
 	private CollectionRepository collectionRepository;
 	
 	public User find(Integer id) {
+		
+		UserSS user = UserAuthenticationService.authenticated();
+		if(user==null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
+			throw new AuthorizationException("Acesso negado");
+		}
+		
 		Optional<User> obj = repo.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto não encontrado! Id: " + id + ", Tipo: " + User.class.getName()));
