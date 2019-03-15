@@ -19,6 +19,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.felipecarvalho.projetoMangasBR.security.JWTAuthenticationFilter;
+import com.felipecarvalho.projetoMangasBR.security.JWTAuthorizationFilter;
 import com.felipecarvalho.projetoMangasBR.security.JWTUtil;
 
 @Configuration
@@ -36,8 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
 	private static final String[] PUBLIC_MATCHERS = {
 			"/h2-console/**",
-			"/swagger-ui.html/**",
-			"/users/**"
+			"/swagger-ui.html/**"
 			
 	};
 
@@ -65,6 +65,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		.antMatchers("/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**").permitAll()
 		.anyRequest().authenticated();
 		http.addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtUtil));
+		http.addFilter(new JWTAuthorizationFilter(authenticationManager(), jwtUtil, userDetailsService));
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 	}
 
