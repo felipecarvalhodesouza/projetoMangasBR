@@ -6,7 +6,7 @@ import com.felipecarvalho.projetoMangasBR.domain.User;
 
 public interface EmailService {
 
-	void sendOrderConfirmationEmail(User obj);
+	void sendSignUpConfirmationEmail(User obj);
 
 	void sendEmail(SimpleMailMessage msg);
 }

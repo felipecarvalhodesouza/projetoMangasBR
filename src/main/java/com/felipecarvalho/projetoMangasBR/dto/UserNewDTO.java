@@ -21,6 +21,8 @@ public class UserNewDTO implements Serializable{
 	@NotEmpty(message="Preenchimento obrigatório")
 	@Email(message="Email inválido")
 	private String email;
+	
+	private String senha;
 
 	public String getName() {
 		return name;
@@ -36,5 +38,13 @@ public class UserNewDTO implements Serializable{
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
 	}
 }

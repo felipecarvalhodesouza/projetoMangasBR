@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.TimeZone;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.felipecarvalho.projetoMangasBR.domain.Collection;
@@ -51,6 +52,9 @@ public class DBService {
 	
 	@Autowired
 	private ReviewRepository reviewRepository;
+	
+	@Autowired
+	private BCryptPasswordEncoder pe;
 
 	public void instantiateTestDataBase() throws ParseException {
 
@@ -83,7 +87,7 @@ public class DBService {
 
 		volumeRepository.saveAll(Arrays.asList(v1, v2, v3, v4, v5, v6, v7, v8, v9));
 
-		User user1 = new User(null, "Felipe Carvalho de Souza", "desouzafelipecarvalho@gmail.com", "123");
+		User user1 = new User(null, "Felipe Carvalho de Souza", "desouzafelipecarvalho@gmail.com", pe.encode("123"));
 
 		Collection c1 = new Collection(null, user1);
 

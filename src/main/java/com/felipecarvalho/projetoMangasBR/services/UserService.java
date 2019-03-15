@@ -55,7 +55,7 @@ public class UserService {
 		obj.setCollection(col);
 		obj = repo.save(obj);
 		collectionRepository.save(col);
-		emailService.sendOrderConfirmationEmail(obj);
+		emailService.sendSignUpConfirmationEmail(obj);
 		return obj; 
 	}
 	

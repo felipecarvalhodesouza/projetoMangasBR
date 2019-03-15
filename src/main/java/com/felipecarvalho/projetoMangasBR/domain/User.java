@@ -35,6 +35,8 @@ public class User implements Serializable{
 	@NotEmpty(message="Preenchimento obrigatório")
 	@Email(message="Email inválido")
 	private String email;
+	
+	@JsonIgnore
 	private String senha;
 	
 	@JsonIgnore
