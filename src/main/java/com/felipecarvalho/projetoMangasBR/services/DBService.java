@@ -17,6 +17,7 @@ import com.felipecarvalho.projetoMangasBR.domain.Title;
 import com.felipecarvalho.projetoMangasBR.domain.User;
 import com.felipecarvalho.projetoMangasBR.domain.Volume;
 import com.felipecarvalho.projetoMangasBR.domain.VolumeUser;
+import com.felipecarvalho.projetoMangasBR.domain.enums.Perfil;
 import com.felipecarvalho.projetoMangasBR.repositories.CollectionRepository;
 import com.felipecarvalho.projetoMangasBR.repositories.CollectionTitleRepository;
 import com.felipecarvalho.projetoMangasBR.repositories.PublisherRepository;
@@ -88,8 +89,12 @@ public class DBService {
 		volumeRepository.saveAll(Arrays.asList(v1, v2, v3, v4, v5, v6, v7, v8, v9));
 
 		User user1 = new User(null, "Felipe Carvalho de Souza", "desouzafelipecarvalho@gmail.com", pe.encode("123"));
+		user1.addPerfil(Perfil.ADMIN);
+		
+		User user2 = new User(null, "Isabela de Paula Bernardo", "belinhaenois@gmail.com", pe.encode("1234"));
 
 		Collection c1 = new Collection(null, user1);
+		Collection c2 = new Collection(null, user2);
 
 		CollectionTitle ct1 = new CollectionTitle(c1, t1);
 		CollectionTitle ct2 = new CollectionTitle(c1, t3);
@@ -99,9 +104,9 @@ public class DBService {
 		t1.getCollectionsTitle().addAll(Arrays.asList(ct1));
 		t3.getCollectionsTitle().addAll(Arrays.asList(ct2));
 
-		userRepository.save(user1);
+		userRepository.saveAll(Arrays.asList(user1,user2));
 
-		collectionRepository.save(c1);
+		collectionRepository.saveAll(Arrays.asList(c1,c2));
 
 		collectionTitleRepository.saveAll(Arrays.asList(ct1, ct2));
 

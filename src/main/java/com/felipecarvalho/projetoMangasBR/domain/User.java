@@ -2,9 +2,14 @@ package com.felipecarvalho.projetoMangasBR.domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -18,6 +23,7 @@ import javax.validation.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Length;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.felipecarvalho.projetoMangasBR.domain.enums.Perfil;
 
 @Entity
 public class User implements Serializable{
@@ -49,7 +55,12 @@ public class User implements Serializable{
 	@OneToMany(mappedBy="author", cascade = CascadeType.ALL)
 	private List<Review> givenReviews = new ArrayList<>();
 	
+	@ElementCollection(fetch=FetchType.EAGER)
+	@CollectionTable(name="PERFIS")
+	private Set<Integer> perfis = new HashSet<>();
+	
 	public User() {
+		addPerfil(Perfil.USER);
 	}
 
 	public User(Integer id, String name, String email, String senha) {
@@ -58,6 +69,7 @@ public class User implements Serializable{
 		this.name = name;
 		this.email = email;
 		this.senha = senha;
+		addPerfil(Perfil.USER);
 	}
 
 	public Integer getId() {
@@ -106,6 +118,14 @@ public class User implements Serializable{
 
 	public void setGivenReviews(List<Review> givenReviews) {
 		this.givenReviews = givenReviews;
+	}
+	
+	public Set<Perfil> getPerfis(){
+		return perfis.stream().map(x -> Perfil.toEnum(x)).collect(Collectors.toSet());
+	}
+
+	public void addPerfil(Perfil perfil) {
+		perfis.add(perfil.getCod());
 	}
 
 	@Override
