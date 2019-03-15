@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,7 +49,8 @@ public class TitleResource {
 		return ResponseEntity.ok().body(obj);
 	}
 	
-	@ApiOperation(value="Edição de usuário por id")
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+	@ApiOperation(value="Edição de título por id")
 	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
 	public ResponseEntity<Void> update(@Valid @RequestBody Title obj, @PathVariable Integer id){
 		obj.setId(id);
@@ -56,7 +58,8 @@ public class TitleResource {
 		return ResponseEntity.noContent().build();
 	}
 	
-	@ApiOperation(value="Deleção de usuário por id")
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+	@ApiOperation(value="Deleção de título por id")
 	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
 	public ResponseEntity<Void> delete(@PathVariable Integer id) {
 		service.delete(id);
@@ -72,6 +75,7 @@ public class TitleResource {
 		return ResponseEntity.ok().body(listDto);
 	}
 	
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
 	@ApiOperation(value="Insere um novo volume em determinado título")
 	@RequestMapping(value="/{id}", method=RequestMethod.POST)
 	public ResponseEntity<Void> insert(@Valid @RequestBody Volume obj, @PathVariable Integer id){

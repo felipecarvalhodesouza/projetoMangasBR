@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -50,6 +51,7 @@ public class PublisherResource {
 		return ResponseEntity.ok().body(list);
 	}
 	
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
 	@ApiOperation(value="Inserção de editora")
 	@RequestMapping(method=RequestMethod.POST)
 	public ResponseEntity<Void> insert(@Valid @RequestBody Publisher obj){
@@ -58,6 +60,7 @@ public class PublisherResource {
 		return ResponseEntity.created(uri).build();
 	}
 	
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
 	@ApiOperation(value="Inserção de um título para determinada editora")
 	@RequestMapping(value="/{id}", method=RequestMethod.POST)
 	public ResponseEntity<Void> insert(@Valid @RequestBody TitleNewDTO newObj, @PathVariable Integer id){
@@ -88,6 +91,7 @@ public class PublisherResource {
 		return ResponseEntity.ok().body(list);
 	}
 	
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
 	@ApiOperation(value="Edição de editora por id")
 	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
 	public ResponseEntity<Void> update(@Valid @RequestBody Publisher obj, @PathVariable Integer id){
@@ -96,6 +100,7 @@ public class PublisherResource {
 		return ResponseEntity.noContent().build();
 	}
 	
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
 	@ApiOperation(value="Deleção de editora por id")
 	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
 	public ResponseEntity<Void> delete(@PathVariable Integer id) {
