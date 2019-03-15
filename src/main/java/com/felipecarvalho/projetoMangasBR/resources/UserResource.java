@@ -49,7 +49,6 @@ public class UserResource {
 		return ResponseEntity.ok().body(obj);
 	}
 	
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
 	@ApiOperation(value="Edição de usuário por id")
 	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
 	public ResponseEntity<Void> update(@Valid @RequestBody UserDTO objDto, @PathVariable Integer id){
@@ -59,7 +58,6 @@ public class UserResource {
 		return ResponseEntity.noContent().build();
 	}
 	
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
 	@ApiOperation(value="Deleção de usuário por id")
 	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
 	public ResponseEntity<Void> delete(@PathVariable Integer id) {
@@ -76,7 +74,6 @@ public class UserResource {
 		return ResponseEntity.created(uri).build();
 	}
 	
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
 	@ApiOperation(value="Busca a coleção de um usuário por seu id")
 	@RequestMapping(value="/{userId}/collection", method=RequestMethod.GET)
 	public ResponseEntity<Collection> findCollection(@PathVariable Integer userId){
@@ -85,7 +82,6 @@ public class UserResource {
 		return ResponseEntity.ok().body(col);
 	}
 	
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
 	@ApiOperation(value="Busca um título específico da coleção de um usuário")
 	@RequestMapping(value="/{userId}/collection/{titleId}", method=RequestMethod.GET)
 	public ResponseEntity<List<VolumeUser>> findCollectionVolumes(@PathVariable Integer userId, @PathVariable Integer titleId){
