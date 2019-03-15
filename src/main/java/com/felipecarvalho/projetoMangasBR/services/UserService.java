@@ -22,6 +22,9 @@ public class UserService {
 	private UserRepository repo;
 	
 	@Autowired
+	private EmailService emailService;
+	
+	@Autowired
 	private CollectionRepository collectionRepository;
 	
 	public User find(Integer id) {
@@ -52,6 +55,7 @@ public class UserService {
 		obj.setCollection(col);
 		obj = repo.save(obj);
 		collectionRepository.save(col);
+		emailService.sendOrderConfirmationEmail(obj);
 		return obj; 
 	}
 	

@@ -56,7 +56,7 @@ public class SwaggerConfig {
 	private ApiInfo apiInfo() {
 		return new ApiInfo( 
 				"API do projeto MangasBR",
-				"Esta API é parte integrante do projeto de TCC do aluno Felipe Carvalho de Souza, requisito para a conclusão do curso de graduação em Análise e Desenvolvimento de Sistemas pela Fatec Baixada Santosta - Rubens Lara.",
+				"Esta API é parte integrante do projeto de TCC do aluno Felipe Carvalho de Souza, requisito para a conclusão do curso de graduação em Análise e Desenvolvimento de Sistemas pela Fatec Baixada Santista - Rubens Lara.",
 				"Versão 1.0",
 				"https://www.linkedin.com/in/desouzafelipecarvalho/",
 				new Contact(
