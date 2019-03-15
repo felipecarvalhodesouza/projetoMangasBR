@@ -6,12 +6,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.felipecarvalho.projetoMangasBR.repositories.UserRepository;
+import com.felipecarvalho.projetoMangasBR.security.JWTUtil;
+import com.felipecarvalho.projetoMangasBR.security.UserSS;
 
 @Service
 public class AuthService {
 
 	@Autowired
 	public UserRepository userRepository;
+	
+	@Autowired
+	private JWTUtil jwtUtil;
 
 	private Random rand = new Random();
 
@@ -33,6 +38,14 @@ public class AuthService {
 		}
 		else { //gera letra minúscula
 			return (char) (rand.nextInt(26) + 97);
+		}
+	}
+	
+	public void validateToken(String token) {
+		if(jwtUtil.tokenValido(token)) {
+			
+			UserSS user = new UserSS();
+			user.setEnabled();
 		}
 	}
 }

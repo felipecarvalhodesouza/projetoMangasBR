@@ -9,6 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.felipecarvalho.projetoMangasBR.domain.User;
 import com.felipecarvalho.projetoMangasBR.repositories.UserRepository;
+import com.felipecarvalho.projetoMangasBR.security.JWTUtil;
 
 public abstract class AbstractEmailService implements EmailService {
 	
@@ -20,6 +21,9 @@ public abstract class AbstractEmailService implements EmailService {
 	
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private JWTUtil jwtUtil;
 	
 	@Value("${default.sender}")
 	private String sender;
@@ -35,10 +39,13 @@ public abstract class AbstractEmailService implements EmailService {
 		SimpleMailMessage sm = new SimpleMailMessage();
 		sm.setTo(obj.getEmail());
 		sm.setFrom(sender);
+		String token = jwtUtil.generateToken(obj.getEmail());
 		sm.setSubject("Usuário cadastrado com sucesso! Código: " + obj.getId());
 		sm.setSentDate(new Date(System.currentTimeMillis()));
 		sm.setText("Parabéns, seu usuário foi cadastrado com sucesso. /n"
-				+ "Sua senha é:" + senha);
+				+ "Sua senha é:" + senha + "/n"
+				+ "Para validar a sua conta, acesso o link a seguir: /n"
+				+ "http://localhost:8080/auth?token=" + token);
 		
 		obj.setSenha(pe.encode(senha));
 		userRepository.save(obj);

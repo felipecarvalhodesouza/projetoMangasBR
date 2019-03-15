@@ -17,6 +17,7 @@ public class UserSS implements UserDetails {
 	private Integer id;
 	private String email;
 	private String senha;
+	private boolean isEnabled = false;
 	private Collection<? extends GrantedAuthority> authorities;
 
 	public UserSS(){
@@ -66,11 +67,15 @@ public class UserSS implements UserDetails {
 
 	@Override
 	public boolean isEnabled() {
-		return true;
+		return isEnabled;
 	}
 	
 	public boolean hasRole(Perfil perfil) {
 		return getAuthorities().contains(new SimpleGrantedAuthority(perfil.getDescricao()));
+	}
+	
+	public void setEnabled() {
+		isEnabled = true;
 	}
 
 }
