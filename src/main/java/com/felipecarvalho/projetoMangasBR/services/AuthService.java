@@ -5,9 +5,9 @@ import java.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.felipecarvalho.projetoMangasBR.domain.User;
 import com.felipecarvalho.projetoMangasBR.repositories.UserRepository;
 import com.felipecarvalho.projetoMangasBR.security.JWTUtil;
-import com.felipecarvalho.projetoMangasBR.security.UserSS;
 
 @Service
 public class AuthService {
@@ -43,9 +43,14 @@ public class AuthService {
 	
 	public void validateToken(String token) {
 		if(jwtUtil.tokenValido(token)) {
+			User user = userRepository.findByEmail(jwtUtil.getUsername(token));
+			user.setEnabled(true);
+			userRepository.save(user);
 			
-			UserSS user = new UserSS();
-			user.setEnabled();
+			//TODO email de confirmação
+		}
+		else {
+			//TODO
 		}
 	}
 }

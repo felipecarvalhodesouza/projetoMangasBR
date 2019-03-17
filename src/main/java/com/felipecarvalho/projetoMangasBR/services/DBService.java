@@ -90,6 +90,7 @@ public class DBService {
 
 		User user1 = new User(null, "Felipe Carvalho de Souza", "desouzafelipecarvalho@gmail.com", pe.encode("123"));
 		user1.addPerfil(Perfil.ADMIN);
+		user1.setEnabled(true);
 		
 		User user2 = new User(null, "Isabela de Paula Bernardo", "belinhaenois@gmail.com", pe.encode("1234"));
 

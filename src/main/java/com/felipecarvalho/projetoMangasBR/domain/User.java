@@ -59,6 +59,9 @@ public class User implements Serializable{
 	@CollectionTable(name="PERFIS")
 	private Set<Integer> perfis = new HashSet<>();
 	
+	@JsonIgnore
+	private boolean isEnabled;
+	
 	public User() {
 		addPerfil(Perfil.USER);
 	}
@@ -126,6 +129,14 @@ public class User implements Serializable{
 
 	public void addPerfil(Perfil perfil) {
 		perfis.add(perfil.getCod());
+	}
+
+	public boolean isEnabled() {
+		return isEnabled;
+	}
+
+	public void setEnabled(boolean isEnabled) {
+		this.isEnabled = isEnabled;
 	}
 
 	@Override
