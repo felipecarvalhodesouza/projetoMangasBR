@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title th:remove="all">Sign Up Confirmation</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+	<div>
+		<h1>
+			Id de Usuário: <span th:text="${user.id}"></span>
+		</h1>
+		
+		<p>
+			Sua senha é: <span th:text="${senha}"></span>
+		</p>
+		<p>
+			A equipe MangásBR agradece pelo seu cadastro. Agora, você terá a sua disposição o melhor aplicativo de controle de coleções do Brasil.
+		</p>
+		
+		<p>
+			Atenção!! Para finalizar o seu cadastro e habilitar o seu acesso ao aplicativo, você deve primeiro verificar sua conta.
+		</p>
+		
+		<p>
+			Para validar isto, favor acessar o link a seguir:
+		</p>
+		
+		<p>
+			<span th:text="${location}"></span>
+		</p>
+		
+	</div>
+
+</body>
+</html> 
