@@ -17,4 +17,7 @@ public interface EmailService {
 	void sendSignUpConfirmationHtmlEmail(User obj);
 
 	void sendHtmlEmail(MimeMessage msg);
+	
+	void sendSignUpValidationSuccesfulHtmlEmail(User obj);
+
 }

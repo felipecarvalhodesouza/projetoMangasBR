@@ -17,6 +17,9 @@ public class AuthService {
 	
 	@Autowired
 	private JWTUtil jwtUtil;
+	
+	@Autowired
+	private EmailService emailService;
 
 	private Random rand = new Random();
 
@@ -46,8 +49,7 @@ public class AuthService {
 			User user = userRepository.findByEmail(jwtUtil.getUsername(token));
 			user.setEnabled(true);
 			userRepository.save(user);
-			
-			//TODO email de confirmação
+			emailService.sendSignUpValidationSuccesfulHtmlEmail(user);	
 		}
 		else {
 			//TODO

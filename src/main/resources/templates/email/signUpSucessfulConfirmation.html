@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title th:remove="all">Account Activation Complete</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+	<div>
+		<h1>
+			Parabéns <span th:text="${user.name}"></span>! Você agora faz parte da melhor comunidade de colecionadores brasileiros.
+		</h1>
+
+		<p>
+			Sua senha é: <b><span th:text="${senha}"></span><b>
+		</p>
+		
+		<p>
+			Lembre-se de trocá-la ao fazer seu primeiro login.
+		</p>
+		
+		<p>
+			A equipe MangasBR espera que você aproveite bastante o aplicativo, e ficamos a disposição para sugestões.
+		</p>
+		
+	</div>
+
+</body>
+</html> 
