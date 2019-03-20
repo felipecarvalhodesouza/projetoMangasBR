@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.felipecarvalho.projetoMangasBR.domain.User;
 import com.felipecarvalho.projetoMangasBR.repositories.UserRepository;
 import com.felipecarvalho.projetoMangasBR.security.JWTUtil;
+import com.felipecarvalho.projetoMangasBR.services.exceptions.TokenNotFoundException;
 
 @Service
 public class AuthService {
@@ -45,14 +46,20 @@ public class AuthService {
 	}
 	
 	public void validateToken(String token) {
+		User user = userRepository.findByEmail(jwtUtil.getUsername(token));
 		if(jwtUtil.tokenValido(token)) {
-			User user = userRepository.findByEmail(jwtUtil.getUsername(token));
 			user.setEnabled(true);
 			userRepository.save(user);
 			emailService.sendSignUpValidationSuccesfulHtmlEmail(user);	
 		}
 		else {
-			//TODO
+			throw new TokenNotFoundException("O token fornecido não é válido.");
 		}
+	}
+	
+	public void resendToken(String email) {
+		User temp = userRepository.findByEmail(email);
+		if(temp != null && !temp.isEnabled())
+			emailService.sendSignUpConfirmationHtmlEmail(temp);
 	}
 }

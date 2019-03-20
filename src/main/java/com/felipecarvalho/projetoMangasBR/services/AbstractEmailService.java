@@ -1,3 +1,4 @@
+
 package com.felipecarvalho.projetoMangasBR.services;
 
 import java.util.Date;
@@ -55,6 +56,19 @@ public abstract class AbstractEmailService implements EmailService {
 		sendEmail(sm);
 	}
 	
+	protected SimpleMailMessage prepareSimpleMailMessageFromValidationSuccesful(User obj) {
+		SimpleMailMessage sm = new SimpleMailMessage();
+		sm.setTo(obj.getEmail());
+		sm.setFrom(sender);
+		String token = jwtUtil.generateToken(obj.getEmail());
+		sm.setSubject("Usuário cadastrado com sucesso! Código: " + obj.getId());
+		sm.setSentDate(new Date(System.currentTimeMillis()));
+		sm.setText("Parabéns, seu usuário foi cadastrado com sucesso. \n"
+				+ "Para validar a sua conta, acesso o link a seguir: \n"
+				+ location + token);
+		return sm;
+	}
+	
 	protected SimpleMailMessage prepareSimpleMailMessageFromSignUp(User obj) {
 		String senha = auth.newPassword();
 		obj.setSenha(pe.encode(senha));
@@ -67,19 +81,6 @@ public abstract class AbstractEmailService implements EmailService {
 		sm.setText("Parabéns " + obj.getName() + "! Você agora faz parte da comunidade de colecionadores brasileiros. \n"
 				+ "Sua senha é: "+ senha + ". Lembre-se de trocá-la ao fazer seu primeiro login. \n"
 				+ "A equipe MangasBR espera que você aproveite bastante o aplicativo, e fica a disposição para sugestões.");
-		return sm;
-	}
-
-	protected SimpleMailMessage prepareSimpleMailMessageFromValidationSuccesful(User obj) {
-		SimpleMailMessage sm = new SimpleMailMessage();
-		sm.setTo(obj.getEmail());
-		sm.setFrom(sender);
-		String token = jwtUtil.generateToken(obj.getEmail());
-		sm.setSubject("Usuário cadastrado com sucesso! Código: " + obj.getId());
-		sm.setSentDate(new Date(System.currentTimeMillis()));
-		sm.setText("Parabéns, seu usuário foi cadastrado com sucesso. \n"
-				+ "Para validar a sua conta, acesso o link a seguir: \n"
-				+ location + token);
 		return sm;
 	}
 	

@@ -19,5 +19,4 @@ public interface EmailService {
 	void sendHtmlEmail(MimeMessage msg);
 	
 	void sendSignUpValidationSuccesfulHtmlEmail(User obj);
-
 }

@@ -13,6 +13,7 @@ import com.felipecarvalho.projetoMangasBR.services.exceptions.AuthorizationExcep
 import com.felipecarvalho.projetoMangasBR.services.exceptions.DataIntegrityException;
 import com.felipecarvalho.projetoMangasBR.services.exceptions.ObjectAlreadyExistsException;
 import com.felipecarvalho.projetoMangasBR.services.exceptions.ObjectNotFoundException;
+import com.felipecarvalho.projetoMangasBR.services.exceptions.TokenNotFoundException;
 
 @ControllerAdvice
 public class ResourceExceptionHandler {
@@ -54,5 +55,12 @@ public class ResourceExceptionHandler {
 		StandardError err = new StandardError(HttpStatus.FORBIDDEN.value(), e.getMessage(), System.currentTimeMillis());
 
 		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(err);
+	}
+	
+	@ExceptionHandler(TokenNotFoundException.class)
+	public ResponseEntity<StandardError> tokenNotFound(TokenNotFoundException e, HttpServletRequest request){
+		StandardError err = new StandardError(HttpStatus.NOT_FOUND.value(), e.getMessage(), System.currentTimeMillis());
+
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(err);
 	}
 }
