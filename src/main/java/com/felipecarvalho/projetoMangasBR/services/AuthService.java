@@ -3,11 +3,13 @@ package com.felipecarvalho.projetoMangasBR.services;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.felipecarvalho.projetoMangasBR.domain.User;
 import com.felipecarvalho.projetoMangasBR.repositories.UserRepository;
 import com.felipecarvalho.projetoMangasBR.security.JWTUtil;
+import com.felipecarvalho.projetoMangasBR.services.exceptions.ObjectNotFoundException;
 import com.felipecarvalho.projetoMangasBR.services.exceptions.TokenNotFoundException;
 
 @Service
@@ -21,6 +23,9 @@ public class AuthService {
 	
 	@Autowired
 	private EmailService emailService;
+	
+	@Autowired
+	public BCryptPasswordEncoder pe;
 
 	private Random rand = new Random();
 
@@ -61,5 +66,20 @@ public class AuthService {
 		User temp = userRepository.findByEmail(email);
 		if(temp != null && !temp.isEnabled())
 			emailService.sendSignUpConfirmationHtmlEmail(temp);
+	}
+	
+	public void sendNewPassword(String email) {
+
+		User user = userRepository.findByEmail(email);
+		if(user == null) {
+			throw new ObjectNotFoundException("Email não encontrado");
+		}
+
+		String newPass = newPassword();
+		user.setSenha(pe.encode(newPass));
+
+		userRepository.save(user);
+
+		emailService.sendNewPasswordHtmlEmail(user, newPass);
 	}
 }

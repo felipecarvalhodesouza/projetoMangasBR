@@ -9,8 +9,6 @@ import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 
-import com.felipecarvalho.projetoMangasBR.domain.User;
-
 public class SmtpEmailService extends AbstractEmailService{
 
 	@Autowired

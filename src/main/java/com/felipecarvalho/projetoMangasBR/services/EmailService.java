@@ -12,6 +12,10 @@ public interface EmailService {
 
 	void sendEmail(SimpleMailMessage msg);
 	
+	void sendValidationSucessfulEmail(User obj);
+	
+	void sendNewPasswordEmail(User user, String newPass);
+	
 	// versão HTML dos métodos acima
 
 	void sendSignUpConfirmationHtmlEmail(User obj);
@@ -19,4 +23,8 @@ public interface EmailService {
 	void sendHtmlEmail(MimeMessage msg);
 	
 	void sendSignUpValidationSuccesfulHtmlEmail(User obj);
+	
+	void sendNewPasswordHtmlEmail(User user, String newPass);
+	
+	
 }

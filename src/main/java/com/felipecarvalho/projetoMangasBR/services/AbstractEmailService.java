@@ -51,8 +51,15 @@ public abstract class AbstractEmailService implements EmailService {
 		sendEmail(sm);
 	}
 	
+	@Override
 	public void sendValidationSucessfulEmail(User obj) {
 		SimpleMailMessage sm = prepareSimpleMailMessageFromValidationSuccesful(obj);
+		sendEmail(sm);
+	}
+	
+	@Override
+	public void sendNewPasswordEmail(User user, String newPass) {
+		SimpleMailMessage sm =  prepareSimpleMailNewPasswordEmail(user, newPass);
 		sendEmail(sm);
 	}
 	
@@ -84,6 +91,16 @@ public abstract class AbstractEmailService implements EmailService {
 		return sm;
 	}
 	
+	protected SimpleMailMessage prepareSimpleMailNewPasswordEmail(User user, String newPass) {
+		SimpleMailMessage sm = new SimpleMailMessage();
+		sm.setTo(user.getEmail());
+		sm.setFrom(sender);
+		sm.setSubject("Solicitação de nova senha");
+		sm.setSentDate(new Date(System.currentTimeMillis()));
+		sm.setText("Nova senha: " + newPass);
+		return sm;
+	}
+	
 	protected String htmlFromTemplateSignUp(User obj) {
 		Context context = new Context();
 		String token = jwtUtil.generateToken(obj.getEmail());
@@ -100,6 +117,13 @@ public abstract class AbstractEmailService implements EmailService {
 		context.setVariable("user", obj);
 		context.setVariable("senha", senha);
 		return templateEngine.process("email/signUpSucessfulConfirmation", context);
+	}
+	
+	protected String htmlFromTemplateNewPassword(User user, String newPass) {
+		Context context = new Context();
+		context.setVariable("user", user);
+		context.setVariable("senha", newPass);
+		return templateEngine.process("email/newPassword", context);
 	}
 	
 	@Override
@@ -125,6 +149,17 @@ public abstract class AbstractEmailService implements EmailService {
 		}
 	}
 	
+	public void sendNewPasswordHtmlEmail(User obj, String newPass) {
+		MimeMessage mm;
+		try {
+			mm = prepareMimeMessageFromNewPassword(obj, newPass);
+			sendHtmlEmail(mm);
+		}
+		catch (MessagingException e) {
+			sendNewPasswordEmail(obj, newPass);
+		}
+	}
+	
 	protected MimeMessage prepareMimeMessageFromSignUp(User obj) throws MessagingException {
 		MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 		MimeMessageHelper mmh = new MimeMessageHelper(mimeMessage, true);
@@ -144,6 +179,17 @@ public abstract class AbstractEmailService implements EmailService {
 		mmh.setSubject("Conta ativada com sucesso!");
 		mmh.setSentDate(new Date(System.currentTimeMillis()));
 		mmh.setText(htmlFromTemplateValidationSuccesful(obj), true);
+		return mimeMessage;
+	}
+	
+	protected MimeMessage prepareMimeMessageFromNewPassword(User obj, String newPass) throws MessagingException {
+		MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+		MimeMessageHelper mmh = new MimeMessageHelper(mimeMessage, true);
+		mmh.setTo(obj.getEmail());
+		mmh.setFrom(sender);
+		mmh.setSubject("Solicitação de nova senha");
+		mmh.setSentDate(new Date(System.currentTimeMillis()));
+		mmh.setText(htmlFromTemplateNewPassword(obj, newPass), true);
 		return mimeMessage;
 	}
 	
