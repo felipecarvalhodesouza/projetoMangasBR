@@ -1,10 +1,12 @@
 package com.felipecarvalho.projetoMangasBR.services;
 
+import java.net.URI;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.felipecarvalho.projetoMangasBR.domain.Collection;
 import com.felipecarvalho.projetoMangasBR.domain.User;
@@ -29,6 +31,9 @@ public class UserService {
 	
 	@Autowired
 	private CollectionRepository collectionRepository;
+	
+	@Autowired
+	private S3Service s3Service;
 	
 	public User find(Integer id) {
 		
@@ -81,5 +86,9 @@ public class UserService {
 	public User fromDTO(UserDTO objDto) {
 		User user = new User(null, objDto.getName(), objDto.getEmail(), null);
 		return user;
+	}
+	
+	public URI uploadProfilePicture(MultipartFile multipartFile) {
+		return s3Service.uploadFile(multipartFile);
 	}
 }

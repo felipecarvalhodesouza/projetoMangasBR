@@ -39,19 +39,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
 	private static final String[] PUBLIC_MATCHERS = {
 			"/h2-console/**",
-			"/swagger-ui.html/**",
-			"/auth/**"
+			"/swagger-ui.html/**"
 			
 	};
 
 	private static final String[] PUBLIC_MATCHERS_GET = {
 			"/volumes/**",
 			"/titles/**",
-			"/publishers/**"
+			"/publishers/**",
+			"/auth/token"
 	};
 	
 	private static final String[] PUBLIC_MATCHERS_POST = {
-			"/users/**"
+			"/users/",
+			"/users/picture",
+			"/auth/forgot/**"
 	};
 
 	@Override

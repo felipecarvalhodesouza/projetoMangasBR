@@ -1,18 +1,12 @@
 package com.felipecarvalho.projetoMangasBR;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.felipecarvalho.projetoMangasBR.services.S3Service;
-
 @SpringBootApplication
 public class ProjetoMangasBrApplication implements CommandLineRunner{
 	
-	@Autowired
-	private S3Service s3Service;
-
 	public static void main(String[] args) {
 		SpringApplication.run(ProjetoMangasBrApplication.class, args);
 	}
@@ -20,7 +14,6 @@ public class ProjetoMangasBrApplication implements CommandLineRunner{
 	@Override
 	public void run(String... args) throws Exception {
 		
-		s3Service.uploadFile("C:\\Users\\Felipe\\Pictures\\felipePunisher.jpg");
 	}
 
 }
