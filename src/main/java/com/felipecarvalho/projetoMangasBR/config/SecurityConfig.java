@@ -47,7 +47,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 			"/volumes/**",
 			"/titles/**",
 			"/publishers/**",
-			"/auth/token"
+			"/auth/**"
 	};
 	
 	private static final String[] PUBLIC_MATCHERS_POST = {
