@@ -62,6 +62,8 @@ public class User implements Serializable{
 	@JsonIgnore
 	private boolean isEnabled;
 	
+	private String imageUrl;
+	
 	public User() {
 		addPerfil(Perfil.USER);
 	}
@@ -137,6 +139,14 @@ public class User implements Serializable{
 
 	public void setEnabled(boolean isEnabled) {
 		this.isEnabled = isEnabled;
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
 
 	@Override
