@@ -1,9 +1,11 @@
 package com.felipecarvalho.projetoMangasBR.services;
 
+import java.awt.image.BufferedImage;
 import java.net.URI;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -34,6 +36,12 @@ public class UserService {
 	
 	@Autowired
 	private S3Service s3Service;
+	
+	@Autowired
+	private ImageService imageService;
+
+	@Value("${img.prefix.user.profile}")
+	private String prefix;
 	
 	public User find(Integer id) {
 		
@@ -93,13 +101,10 @@ public class UserService {
 		if (userSS == null) {
 			throw new AuthorizationException("Acesso negado");
 		}
+		
+		BufferedImage jpgImage = imageService.getJpgImageFromFile(multipartFile);
+		String fileName = prefix + userSS.getId() + ".jpg";
 
-		URI uri = s3Service.uploadFile(multipartFile);
-
-		User obj = repo.findById(userSS.getId()).get();
-		obj.setImageUrl(uri.toString());
-		repo.save(obj);
-
-		return uri;
+		return s3Service.uploadFile(imageService.getInputStream(jpgImage, "jpg"), fileName, "image");
 	}
 }
