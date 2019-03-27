@@ -55,6 +55,20 @@ public class UserService {
 				"Objeto não encontrado! Id: " + id + ", Tipo: " + User.class.getName()));
 	}
 	
+	public User findByEmail(String email) {
+		
+		UserSS user = UserAuthenticationService.authenticated();
+		if(user == null || !user.hasRole(Perfil.ADMIN) && !email.equals(user.getUsername())){
+			throw new AuthorizationException("Acesso negado");
+		}
+		
+		User obj = repo.findByEmail(email);
+		if(obj == null) {
+			throw new ObjectNotFoundException("Objeto não encontrado. Id: " + user.getId() + ", Tipo: " + User.class.getName());
+		}
+		return obj;
+	}
+	
 	public User update(User obj) {
 		User newObj = find(obj.getId());
 		updateData(newObj, obj);

@@ -50,6 +50,14 @@ public class UserResource {
 		return ResponseEntity.ok().body(obj);
 	}
 	
+	@ApiOperation(value="Busca de usuário por email")
+	@RequestMapping(value="/email", method=RequestMethod.GET)
+	public ResponseEntity<User> find(@RequestParam(value="value") String email) {
+		
+		User obj = service.findByEmail(email);
+		return ResponseEntity.ok().body(obj);
+	}
+	
 	@ApiOperation(value="Edição de usuário por id")
 	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
 	public ResponseEntity<Void> update(@Valid @RequestBody UserDTO objDto, @PathVariable Integer id){

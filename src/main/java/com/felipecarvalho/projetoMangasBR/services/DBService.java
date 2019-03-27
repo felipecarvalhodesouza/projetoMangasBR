@@ -73,7 +73,14 @@ public class DBService {
 		Title t1 = new Title(null, "Naruto", p1, true, sdf.parse("05/2007"), sdf.parse("06/2015"));
 		Title t2 = new Title(null, "Your Name", p2, true, sdf.parse("08/2017"), sdf.parse("01/2018"));
 		Title t3 = new Title(null, "No Game No Life", p3, false, sdf.parse("12/2014"), null);
-
+		Title t4 = new Title(null, "Wotakoi", p1, false, sdf.parse("03/2019"), null);
+		Title t5 = new Title(null, "Sword Art Online", p1, false, sdf.parse("12/2014"), null);
+		Title t6 = new Title(null, "Chobits", p2, false, sdf.parse("12/2014"), null);
+		Title t7 = new Title(null, "Re:Zero", p3, false, sdf.parse("01/2018"), null);
+		Title t8 = new Title(null, "No Game No Life Desu", p3, false, sdf.parse("12/2014"), null);
+		Title t9 = new Title(null, "The Legend Of Zelda", p1, false, sdf.parse("12/2014"), null);
+		Title t10 = new Title(null, "Afro Samurai", p1, false, sdf.parse("12/2014"), null);
+	
 		Volume v1 = new Volume(null, "Volume 1", t1, sdf.parse("05/2007"), 8.90);
 		Volume v2 = new Volume(null, "Volume 2", t1, sdf.parse("06/2007"), 8.90);
 		Volume v3 = new Volume(null, "Volume 3", t1, sdf.parse("07/2007"), 8.90);
@@ -84,7 +91,7 @@ public class DBService {
 		Volume v8 = new Volume(null, "Volume 2", t3, sdf.parse("10/2007"), 10.90);
 		Volume v9 = new Volume(null, "Volume 1", t2, sdf.parse("05/2012"), 15.90);
 
-		titleRepository.saveAll(Arrays.asList(t1, t2, t3));
+		titleRepository.saveAll(Arrays.asList(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10));
 
 		volumeRepository.saveAll(Arrays.asList(v1, v2, v3, v4, v5, v6, v7, v8, v9));
 
@@ -98,18 +105,35 @@ public class DBService {
 		Collection c2 = new Collection(null, user2);
 
 		CollectionTitle ct1 = new CollectionTitle(c1, t1);
-		CollectionTitle ct2 = new CollectionTitle(c1, t3);
+		CollectionTitle ct2 = new CollectionTitle(c1, t2);
+		CollectionTitle ct3 = new CollectionTitle(c1, t3);
+		CollectionTitle ct4 = new CollectionTitle(c1, t4);
+		CollectionTitle ct5 = new CollectionTitle(c1, t5);
+		CollectionTitle ct6 = new CollectionTitle(c1, t6);
+		CollectionTitle ct7 = new CollectionTitle(c1, t7);
+		CollectionTitle ct8 = new CollectionTitle(c1, t8);
+		CollectionTitle ct9 = new CollectionTitle(c1, t9);
+		CollectionTitle ct10 = new CollectionTitle(c1, t10);
 
-		c1.getCollectionTitle().addAll(Arrays.asList(ct1, ct2));
+
+		c1.getCollectionTitle().addAll(Arrays.asList(ct1, ct2, ct3, ct4, ct5, ct6, ct7, ct8, ct9, ct10));
 
 		t1.getCollectionsTitle().addAll(Arrays.asList(ct1));
-		t3.getCollectionsTitle().addAll(Arrays.asList(ct2));
-
+		t2.getCollectionsTitle().addAll(Arrays.asList(ct2));
+		t3.getCollectionsTitle().addAll(Arrays.asList(ct3));
+		t4.getCollectionsTitle().addAll(Arrays.asList(ct4));
+		t5.getCollectionsTitle().addAll(Arrays.asList(ct5));
+		t6.getCollectionsTitle().addAll(Arrays.asList(ct6));
+		t7.getCollectionsTitle().addAll(Arrays.asList(ct7));
+		t8.getCollectionsTitle().addAll(Arrays.asList(ct8));
+		t9.getCollectionsTitle().addAll(Arrays.asList(ct9));
+		t10.getCollectionsTitle().addAll(Arrays.asList(ct10));
+		
 		userRepository.saveAll(Arrays.asList(user1,user2));
 
 		collectionRepository.saveAll(Arrays.asList(c1,c2));
 
-		collectionTitleRepository.saveAll(Arrays.asList(ct1, ct2));
+		collectionTitleRepository.saveAll(Arrays.asList(ct1, ct2, ct3, ct4, ct5, ct6, ct7, ct8, ct9, ct10));
 
 		VolumeUser vu1 = new VolumeUser(ct1, v1);
 		VolumeUser vu2 = new VolumeUser(ct1, v2);
