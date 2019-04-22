@@ -53,9 +53,11 @@ public class AuthService {
 	public void validateToken(String token) {
 		User user = userRepository.findByEmail(jwtUtil.getUsername(token));
 		if(jwtUtil.tokenValido(token)) {
-			user.setEnabled(true);
-			userRepository.save(user);
-			emailService.sendSignUpValidationSuccesfulHtmlEmail(user);	
+			if(user.getSenha()==null) {
+				user.setEnabled(true);
+				userRepository.save(user);
+				emailService.sendSignUpValidationSuccesfulHtmlEmail(user);	
+			}
 		}
 		else {
 			throw new TokenNotFoundException("O token fornecido não é válido.");
