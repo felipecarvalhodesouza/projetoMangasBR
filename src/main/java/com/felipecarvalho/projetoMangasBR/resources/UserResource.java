@@ -3,6 +3,7 @@ package com.felipecarvalho.projetoMangasBR.resources;
 import java.net.URI;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,10 +77,11 @@ public class UserResource {
 	
 	@ApiOperation(value="Inserção de usuário")
 	@RequestMapping(method=RequestMethod.POST)
-	public ResponseEntity<Void> insert(@Valid @RequestBody UserNewDTO objNewDto){
+	public ResponseEntity<Void> insert(HttpServletResponse response, @Valid @RequestBody UserNewDTO objNewDto){
 		User obj = service.fromDTO(objNewDto);
 		obj = service.insert(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+		response.addHeader("access-control-expose-headers", "Authorization");
 		return ResponseEntity.created(uri).build();
 	}
 	
