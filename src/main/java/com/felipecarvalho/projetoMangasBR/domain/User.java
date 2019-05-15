@@ -2,6 +2,7 @@ package com.felipecarvalho.projetoMangasBR.domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -62,16 +63,25 @@ public class User implements Serializable{
 	@JsonIgnore
 	private boolean isEnabled;
 	
+	private Date memberSince;
+	
+	@JsonIgnore
+	private boolean changePasswordOnLogin;
+	
+	@JsonIgnore
+	private Date lastPasswordChange;
+	
 	public User() {
 		addPerfil(Perfil.USER);
 	}
 
-	public User(Integer id, String name, String email, String senha) {
+	public User(Integer id, String name, String email, String senha, Date memberSince) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.email = email;
 		this.senha = senha;
+		this.memberSince = memberSince;
 		addPerfil(Perfil.USER);
 	}
 
@@ -137,6 +147,30 @@ public class User implements Serializable{
 
 	public void setEnabled(boolean isEnabled) {
 		this.isEnabled = isEnabled;
+	}
+
+	public Date getMemberSince() {
+		return memberSince;
+	}
+
+	public void setMemberSince(Date memberSince) {
+		this.memberSince = memberSince;
+	}
+
+	public boolean isChangePasswordOnLogin() {
+		return changePasswordOnLogin;
+	}
+
+	public void setChangePasswordOnLogin(boolean changePasswordOnLogin) {
+		this.changePasswordOnLogin = changePasswordOnLogin;
+	}
+
+	public Date getLastPasswordChange() {
+		return lastPasswordChange;
+	}
+
+	public void setLastPasswordChange(Date lastPasswordChange) {
+		this.lastPasswordChange = lastPasswordChange;
 	}
 
 	@Override

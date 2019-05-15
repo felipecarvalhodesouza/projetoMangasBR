@@ -69,6 +69,8 @@ public class DBService {
 		sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
 		SimpleDateFormat sdf2 = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 		sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+		SimpleDateFormat sdf3 = new SimpleDateFormat("dd/MM/yyyy");
+		sdf3.setTimeZone(TimeZone.getTimeZone("GMT"));
 
 		Title t1 = new Title(null, "Naruto", p1, true, sdf.parse("05/2007"), sdf.parse("06/2015"));
 		Title t2 = new Title(null, "Your Name", p2, true, sdf.parse("08/2017"), sdf.parse("01/2018"));
@@ -95,11 +97,11 @@ public class DBService {
 
 		volumeRepository.saveAll(Arrays.asList(v1, v2, v3, v4, v5, v6, v7, v8, v9));
 
-		User user1 = new User(null, "Felipe Carvalho de Souza", "desouzafelipecarvalho@gmail.com", pe.encode("123"));
+		User user1 = new User(null, "Felipe Carvalho de Souza", "desouzafelipecarvalho@gmail.com", pe.encode("123"), sdf3.parse("14/05/2019"));
 		user1.addPerfil(Perfil.ADMIN);
 		user1.setEnabled(true);
 		
-		User user2 = new User(null, "Isabela de Paula Bernardo", "belinhaenois@gmail.com", pe.encode("1234"));
+		User user2 = new User(null, "Isabela de Paula Bernardo", "belinhaenois@gmail.com", pe.encode("1234"), sdf3.parse("24/02/2019"));
 
 		Collection c1 = new Collection(null, user1);
 		Collection c2 = new Collection(null, user2);

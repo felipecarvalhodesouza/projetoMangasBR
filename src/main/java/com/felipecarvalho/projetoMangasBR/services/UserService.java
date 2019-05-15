@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -39,6 +40,9 @@ public class UserService {
 	
 	@Autowired
 	private ImageService imageService;
+	
+	@Autowired
+	private BCryptPasswordEncoder pe;
 
 	@Value("${img.prefix.user.profile}")
 	private String prefix;
@@ -96,17 +100,21 @@ public class UserService {
 	}
 	
 	private void updateData(User newObj, User obj) {
+		if(obj.getName()!=null)
 		newObj.setName(obj.getName());
+		if(obj.getEmail()!=null)
 		newObj.setEmail(obj.getEmail());
+		if(obj.getSenha()!=null)
+		newObj.setSenha(pe.encode(obj.getSenha()));
 	}
 	
 	public User fromDTO(UserNewDTO objDto) {
-		User user = new User(null, objDto.getName(), objDto.getEmail(), null);
+		User user = new User(null, objDto.getName(), objDto.getEmail(), null, objDto.getMemberSince());
 		return user;
 	}
 	
 	public User fromDTO(UserDTO objDto) {
-		User user = new User(null, objDto.getName(), objDto.getEmail(), null);
+		User user = new User(null, objDto.getName(), objDto.getEmail(), objDto.getSenha(), objDto.getMemberSince());
 		return user;
 	}
 	

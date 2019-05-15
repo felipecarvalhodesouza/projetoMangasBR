@@ -1,6 +1,7 @@
 package com.felipecarvalho.projetoMangasBR.dto;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
@@ -23,6 +24,8 @@ public class UserNewDTO implements Serializable{
 	private String email;
 	
 	private String senha;
+	
+	private Date memberSince;
 
 	public String getName() {
 		return name;
@@ -46,5 +49,13 @@ public class UserNewDTO implements Serializable{
 
 	public void setSenha(String senha) {
 		this.senha = senha;
+	}
+
+	public Date getMemberSince() {
+		return memberSince;
+	}
+
+	public void setMemberSince(Date memberSince) {
+		this.memberSince = memberSince;
 	}
 }
