@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.felipecarvalho.projetoMangasBR.domain.Author;
 import com.felipecarvalho.projetoMangasBR.domain.Collection;
 import com.felipecarvalho.projetoMangasBR.domain.CollectionTitle;
 import com.felipecarvalho.projetoMangasBR.domain.Publisher;
@@ -18,6 +19,7 @@ import com.felipecarvalho.projetoMangasBR.domain.User;
 import com.felipecarvalho.projetoMangasBR.domain.Volume;
 import com.felipecarvalho.projetoMangasBR.domain.VolumeUser;
 import com.felipecarvalho.projetoMangasBR.domain.enums.Perfil;
+import com.felipecarvalho.projetoMangasBR.repositories.AuthorRepository;
 import com.felipecarvalho.projetoMangasBR.repositories.CollectionRepository;
 import com.felipecarvalho.projetoMangasBR.repositories.CollectionTitleRepository;
 import com.felipecarvalho.projetoMangasBR.repositories.PublisherRepository;
@@ -55,6 +57,9 @@ public class DBService {
 	private ReviewRepository reviewRepository;
 	
 	@Autowired
+	private AuthorRepository authorRepository;
+	
+	@Autowired
 	private BCryptPasswordEncoder pe;
 
 	public void instantiateTestDataBase() throws ParseException {
@@ -71,17 +76,20 @@ public class DBService {
 		sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
 		SimpleDateFormat sdf3 = new SimpleDateFormat("dd/MM/yyyy");
 		sdf3.setTimeZone(TimeZone.getTimeZone("GMT"));
+		
+		Author a1 = new Author(null, "Masashi Kishimoto");
+		authorRepository.save(a1);
 
-		Title t1 = new Title(null, "Naruto", p1, true, sdf.parse("05/2007"), sdf.parse("06/2015"));
-		Title t2 = new Title(null, "Your Name", p2, true, sdf.parse("08/2017"), sdf.parse("01/2018"));
-		Title t3 = new Title(null, "No Game No Life", p3, false, sdf.parse("12/2014"), null);
-		Title t4 = new Title(null, "Wotakoi", p1, false, sdf.parse("03/2019"), null);
-		Title t5 = new Title(null, "Sword Art Online", p1, false, sdf.parse("12/2014"), null);
-		Title t6 = new Title(null, "Chobits", p2, false, sdf.parse("12/2014"), null);
-		Title t7 = new Title(null, "Re:Zero", p3, false, sdf.parse("01/2018"), null);
-		Title t8 = new Title(null, "No Game No Life Desu", p3, false, sdf.parse("12/2014"), null);
-		Title t9 = new Title(null, "The Legend Of Zelda", p1, false, sdf.parse("12/2014"), null);
-		Title t10 = new Title(null, "Afro Samurai", p1, false, sdf.parse("12/2014"), null);
+		Title t1 = new Title(null, "Naruto", p1, a1, true, sdf.parse("05/2007"), sdf.parse("06/2015"));
+		Title t2 = new Title(null, "Your Name", p2, null, true, sdf.parse("08/2017"), sdf.parse("01/2018"));
+		Title t3 = new Title(null, "No Game No Life", p3,null, false, sdf.parse("12/2014"), null);
+		Title t4 = new Title(null, "Wotakoi", p1,null, false, sdf.parse("03/2019"), null);
+		Title t5 = new Title(null, "Sword Art Online", p1,null, false, sdf.parse("12/2014"), null);
+		Title t6 = new Title(null, "Chobits", p2,null, false, sdf.parse("12/2014"), null);
+		Title t7 = new Title(null, "Re:Zero", p3,null, false, sdf.parse("01/2018"), null);
+		Title t8 = new Title(null, "No Game No Life Desu", p3,null, false, sdf.parse("12/2014"), null);
+		Title t9 = new Title(null, "The Legend Of Zelda", p1,null, false, sdf.parse("12/2014"), null);
+		Title t10 = new Title(null, "Afro Samurai", p1,null, false, sdf.parse("12/2014"), null);
 	
 		Volume v1 = new Volume(null, "Volume 1", t1, sdf.parse("05/2007"), 8.90);
 		Volume v2 = new Volume(null, "Volume 2", t1, sdf.parse("06/2007"), 8.90);

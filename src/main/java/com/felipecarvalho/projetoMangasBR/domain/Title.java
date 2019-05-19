@@ -40,6 +40,11 @@ public class Title implements Serializable{
 	private Date end;
 	
 	@JsonIgnore
+	@ManyToOne
+	@JoinColumn(name="author_id")
+	private Author author;
+	
+	@JsonIgnore
 	@OneToMany(mappedBy="title")
 	private Set<Volume> volumes = new HashSet<>();
 	
@@ -57,11 +62,12 @@ public class Title implements Serializable{
 	public Title() {
 	}
 
-	public Title(Integer id, String name, Publisher publisher, boolean isFinished, Date start, Date end) {
+	public Title(Integer id, String name, Publisher publisher, Author author, boolean isFinished, Date start, Date end) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.publisher = publisher;
+		this.author = author;
 		this.isFinished = isFinished;
 		this.start = start;
 		this.end = end;
@@ -98,6 +104,14 @@ public class Title implements Serializable{
 
 	public void setPublisher(Publisher publisher) {
 		this.publisher = publisher;
+	}
+
+	public Author getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(Author author) {
+		this.author = author;
 	}
 
 	public boolean isFinished() {
