@@ -4,18 +4,13 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.felipecarvalho.projetoMangasBR.domain.enums.Perfil;
-import com.felipecarvalho.projetoMangasBR.repositories.UserRepository;
 
 public class UserSS implements UserDetails {
-	
-	@Autowired
-	private UserRepository repo;
 	
 	private static final long serialVersionUID = 1L;
 	

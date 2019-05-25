@@ -4,11 +4,9 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Length;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.felipecarvalho.projetoMangasBR.services.validation.UserUpdate;
 
 @UserUpdate
@@ -25,6 +23,8 @@ public class UserDTO implements Serializable{
 	private String email;
 	
 	private String senha;
+	
+	private boolean changePasswordOnLogin; 
 	
 	private Date memberSince;
 	
@@ -50,6 +50,14 @@ public class UserDTO implements Serializable{
 
 	public void setSenha(String senha) {
 		this.senha = senha;
+	}
+
+	public boolean isChangePasswordOnLogin() {
+		return changePasswordOnLogin;
+	}
+
+	public void setChangePasswordOnLogin(boolean changePasswordOnLogin) {
+		this.changePasswordOnLogin = changePasswordOnLogin;
 	}
 
 	public Date getMemberSince() {

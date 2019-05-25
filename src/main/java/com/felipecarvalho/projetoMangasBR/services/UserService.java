@@ -106,6 +106,8 @@ public class UserService {
 		newObj.setEmail(obj.getEmail());
 		if(obj.getSenha()!=null)
 		newObj.setSenha(pe.encode(obj.getSenha()));
+		if(obj.isChangePasswordOnLogin()!=newObj.isChangePasswordOnLogin())
+		newObj.setChangePasswordOnLogin(obj.isChangePasswordOnLogin());
 	}
 	
 	public User fromDTO(UserNewDTO objDto) {

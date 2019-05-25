@@ -79,6 +79,8 @@ public class AuthService {
 
 		String newPass = newPassword();
 		user.setSenha(pe.encode(newPass));
+		
+		user.setChangePasswordOnLogin(true);
 
 		userRepository.save(user);
 

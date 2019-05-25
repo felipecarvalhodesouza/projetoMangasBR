@@ -65,7 +65,6 @@ public class User implements Serializable{
 	
 	private Date memberSince;
 	
-	@JsonIgnore
 	private boolean changePasswordOnLogin;
 	
 	@JsonIgnore
@@ -83,6 +82,7 @@ public class User implements Serializable{
 		this.senha = senha;
 		this.memberSince = memberSince;
 		addPerfil(Perfil.USER);
+		this.changePasswordOnLogin = true;
 	}
 
 	public Integer getId() {

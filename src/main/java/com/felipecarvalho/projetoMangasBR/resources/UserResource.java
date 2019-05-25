@@ -63,6 +63,9 @@ public class UserResource {
 	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
 	public ResponseEntity<Void> update(@Valid @RequestBody UserDTO objDto, @PathVariable Integer id){
 		User obj = service.fromDTO(objDto);
+		if(!objDto.isChangePasswordOnLogin()) {
+			obj.setChangePasswordOnLogin(false);
+		}
 		obj.setId(id);
 		obj = service.update(obj);
 		return ResponseEntity.noContent().build();

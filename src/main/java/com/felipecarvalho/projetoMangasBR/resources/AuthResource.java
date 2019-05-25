@@ -48,9 +48,8 @@ public class AuthResource {
 	
 	@ApiOperation(value="Resend validation token")
 	@RequestMapping(value = "/resend_token", method = RequestMethod.POST)
-	public ResponseEntity<Void> resendToken(HttpServletResponse response, @RequestParam(value="email", defaultValue="")String email) {
-		authService.resendToken(email);
-		response.addHeader("Info","Um email foi enviado com os passos para a autenticação de sua conta");
+	public ResponseEntity<Void> resendToken(@Valid @RequestBody EmailDTO objDto) {
+		authService.resendToken(objDto.getEmail());
 		return ResponseEntity.noContent().build();
 	}
 	
