@@ -1,5 +1,8 @@
 package com.felipecarvalho.projetoMangasBR.services;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -20,6 +23,18 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		User user = repo.findByEmail(email);
 		if(user == null) {
 			throw new UsernameNotFoundException(email);
+		}
+		if(user.getLastPasswordChange()==null) {
+			user.setChangePasswordOnLogin(true);
+		} else {
+			Date date = (Date) user.getLastPasswordChange();
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(date);
+			cal.add(Calendar.MONTH, 3);
+			if(cal.before(new Date()) && !user.isChangePasswordOnLogin()) {
+				user.setChangePasswordOnLogin(true);
+				repo.save(user);
+			}
 		}
 		return new UserSS(user.getId(), user.getEmail(), user.getSenha(), user.getPerfis(), user.isEnabled());
 	}

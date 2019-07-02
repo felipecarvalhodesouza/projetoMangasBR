@@ -3,6 +3,7 @@ package com.felipecarvalho.projetoMangasBR.services;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.TimeZone;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -107,7 +108,9 @@ public class DBService {
 
 		User user1 = new User(null, "Felipe Carvalho de Souza", "desouzafelipecarvalho@gmail.com", pe.encode("123"), sdf3.parse("14/05/2019"));
 		user1.addPerfil(Perfil.ADMIN);
+		user1.setLastPasswordChange(new Date());
 		user1.setEnabled(true);
+		user1.setChangePasswordOnLogin(false);
 		
 		User user2 = new User(null, "Isabela de Paula Bernardo", "belinhaenois@gmail.com", pe.encode("1234"), sdf3.parse("24/02/2019"));
 

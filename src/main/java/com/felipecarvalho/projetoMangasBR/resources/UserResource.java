@@ -1,7 +1,10 @@
 package com.felipecarvalho.projetoMangasBR.resources;
 
 import java.net.URI;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -81,7 +84,9 @@ public class UserResource {
 	@ApiOperation(value="Inserção de usuário")
 	@RequestMapping(method=RequestMethod.POST)
 	public ResponseEntity<Void> insert(HttpServletResponse response, @Valid @RequestBody UserNewDTO objNewDto){
+		
 		User obj = service.fromDTO(objNewDto);
+		obj.setMemberSince(new Date());
 		obj = service.insert(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 		response.addHeader("access-control-expose-headers", "Authorization");

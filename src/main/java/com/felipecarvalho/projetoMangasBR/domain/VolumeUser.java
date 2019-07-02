@@ -42,7 +42,6 @@ public class VolumeUser implements Serializable{
 		this.doesHave = false;
 	}
 	
-	@JsonIgnore
 	public Integer getId() {
 		return id;
 	}

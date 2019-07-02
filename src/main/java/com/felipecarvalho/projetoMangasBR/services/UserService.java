@@ -2,8 +2,10 @@ package com.felipecarvalho.projetoMangasBR.services;
 
 import java.awt.image.BufferedImage;
 import java.net.URI;
+import java.util.Date;
 import java.util.Optional;
 
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -104,8 +106,10 @@ public class UserService {
 		newObj.setName(obj.getName());
 		if(obj.getEmail()!=null)
 		newObj.setEmail(obj.getEmail());
-		if(obj.getSenha()!=null)
+		if(obj.getSenha()!=null) {
 		newObj.setSenha(pe.encode(obj.getSenha()));
+		newObj.setLastPasswordChange(new Date());
+		}
 		if(obj.isChangePasswordOnLogin()!=newObj.isChangePasswordOnLogin())
 		newObj.setChangePasswordOnLogin(obj.isChangePasswordOnLogin());
 	}

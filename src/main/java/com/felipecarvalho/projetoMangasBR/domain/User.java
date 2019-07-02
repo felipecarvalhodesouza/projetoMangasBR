@@ -22,6 +22,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Length;
+import org.joda.time.DateTime;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.felipecarvalho.projetoMangasBR.domain.enums.Perfil;
@@ -67,7 +68,6 @@ public class User implements Serializable{
 	
 	private boolean changePasswordOnLogin;
 	
-	@JsonIgnore
 	private Date lastPasswordChange;
 	
 	public User() {
