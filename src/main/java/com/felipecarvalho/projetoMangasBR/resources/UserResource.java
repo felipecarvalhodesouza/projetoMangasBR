@@ -1,15 +1,14 @@
 package com.felipecarvalho.projetoMangasBR.resources;
 
 import java.net.URI;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -103,7 +102,10 @@ public class UserResource {
 	
 	@ApiOperation(value="Busca um título específico da coleção de um usuário")
 	@RequestMapping(value="/{userId}/collection/{titleId}", method=RequestMethod.GET)
-	public ResponseEntity<List<VolumeUser>> findCollectionVolumes(@PathVariable Integer userId, @PathVariable Integer titleId){
+	public ResponseEntity<Page<VolumeUser>> findCollectionVolumes(@PathVariable Integer userId,
+																  @PathVariable Integer titleId,
+																  @RequestParam(value="page", defaultValue="0")Integer page,
+																  @RequestParam(value="linesPerPage", defaultValue="9") Integer linesPerPage){
 		service.find(userId);
 		
 		if(collectionService.findByUser(userId).getTitles().size()<(titleId)) {
@@ -113,7 +115,7 @@ public class UserResource {
 		Title title = collectionService.findByUser(userId).getTitles().get(titleId-1);
 		Collection collection = collectionService.findByUser(userId);
 
-		List<VolumeUser> list = collectionService.findTitleVolumes(collection, title);
+		Page<VolumeUser> list = collectionService.findTitleVolumesWithPage(collection, title, page, linesPerPage);
 		return ResponseEntity.ok().body(list);
 	}
 	

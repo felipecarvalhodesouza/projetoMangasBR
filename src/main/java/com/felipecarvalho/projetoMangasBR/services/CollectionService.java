@@ -3,6 +3,9 @@ package com.felipecarvalho.projetoMangasBR.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.felipecarvalho.projetoMangasBR.domain.Collection;
@@ -41,6 +44,15 @@ public class CollectionService {
 	
 	public List<VolumeUser> findTitleVolumes(Collection userId, Title title){
 		return volumeUserRepository.findVolumes(userId, title);
+	}
+	
+	public Page<VolumeUser> findTitleVolumesWithPage(Collection userId, Title title, Integer page, Integer linesPerPage){
+		Pageable pageRequest = PageRequest.of(page, linesPerPage);
+		
+		CollectionTitle ct = new CollectionTitle(userId, title);
+		
+		return volumeUserRepository.findDistinctByCollectionTitle(ct, pageRequest);
+		//return volumeUserRepository.findVolumes(userId, title);
 	}
 	
 	public Collection insertTitle(Collection col, Integer titleId){
