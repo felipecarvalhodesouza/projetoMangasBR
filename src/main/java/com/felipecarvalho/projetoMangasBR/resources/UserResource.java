@@ -2,12 +2,13 @@ package com.felipecarvalho.projetoMangasBR.resources;
 
 import java.net.URI;
 import java.util.Date;
-import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import org.codehaus.jackson.map.util.JSONPObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.jackson.JsonObjectSerializer;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,12 +21,14 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.felipecarvalho.projetoMangasBR.domain.Collection;
+import com.felipecarvalho.projetoMangasBR.domain.Review;
 import com.felipecarvalho.projetoMangasBR.domain.Title;
 import com.felipecarvalho.projetoMangasBR.domain.User;
 import com.felipecarvalho.projetoMangasBR.domain.VolumeUser;
 import com.felipecarvalho.projetoMangasBR.dto.UserDTO;
 import com.felipecarvalho.projetoMangasBR.dto.UserNewDTO;
 import com.felipecarvalho.projetoMangasBR.services.CollectionService;
+import com.felipecarvalho.projetoMangasBR.services.ReviewService;
 import com.felipecarvalho.projetoMangasBR.services.TitleService;
 import com.felipecarvalho.projetoMangasBR.services.UserService;
 import com.felipecarvalho.projetoMangasBR.services.exceptions.ObjectNotFoundException;
@@ -44,6 +47,9 @@ public class UserResource {
 	
 	@Autowired
 	private TitleService titleService;
+	
+	@Autowired
+	private ReviewService reviewService;
 	
 	@ApiOperation(value="Busca de usuário por id")
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
@@ -138,6 +144,26 @@ public class UserResource {
 		Collection col = collectionService.findByUser(userId);
 		col.setId(userId);
 		col = collectionService.removeTitle(col, titleId);
+		return ResponseEntity.noContent().build();
+	}
+	
+	// Só será possível adicionar reviews a titulos que estejam em sua coleção
+	@ApiOperation(value="Inserção de review em um título da coleção")
+	@RequestMapping(value="/{userId}/collection/{titleId}/reviews", method=RequestMethod.POST)
+	public ResponseEntity<Void> insertReview(@Valid @PathVariable Integer userId,
+											 @PathVariable Integer titleId, 
+											 @RequestBody Review review){
+		
+		User user = service.find(userId);
+		user.setId(userId);
+		Title title = titleService.find(titleId);
+		title.setId(titleId);
+		
+		review.setAuthor(user);
+		review.setDate(new Date());
+		review.setTitle(title);
+		reviewService.saveReview(review);
+		
 		return ResponseEntity.noContent().build();
 	}
 	

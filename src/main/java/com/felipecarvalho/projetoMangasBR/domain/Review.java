@@ -92,7 +92,6 @@ public class Review implements Serializable{
 		return author.getName();
 	}
 	
-	@JsonIgnore
 	public User getAuthor() {
 		return author;
 	}

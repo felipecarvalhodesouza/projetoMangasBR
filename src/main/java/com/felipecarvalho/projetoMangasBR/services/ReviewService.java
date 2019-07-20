@@ -17,5 +17,9 @@ public class ReviewService {
 	public List<Review> findByTitle(Integer titleId){
 		return repo.findReviews(titleId);
 	}
+	
+	public Review saveReview(Review review) {
+		return repo.save(review);
+	}
 
 }
