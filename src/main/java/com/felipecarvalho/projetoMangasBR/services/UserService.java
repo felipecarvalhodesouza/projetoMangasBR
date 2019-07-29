@@ -5,7 +5,6 @@ import java.net.URI;
 import java.util.Date;
 import java.util.Optional;
 
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -48,6 +47,9 @@ public class UserService {
 
 	@Value("${img.prefix.user.profile}")
 	private String prefix;
+	
+	@Value("${img.profile.size}")
+	private Integer size;
 	
 	public User find(Integer id) {
 		
@@ -131,6 +133,10 @@ public class UserService {
 		}
 		
 		BufferedImage jpgImage = imageService.getJpgImageFromFile(multipartFile);
+		
+		jpgImage = imageService.cropSquare(jpgImage);
+		jpgImage = imageService.resize(jpgImage, size);
+		
 		String fileName = prefix + userSS.getId() + ".jpg";
 
 		return s3Service.uploadFile(imageService.getInputStream(jpgImage, "jpg"), fileName, "image");
