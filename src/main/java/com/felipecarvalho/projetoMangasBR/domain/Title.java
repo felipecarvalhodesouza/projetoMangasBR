@@ -59,6 +59,8 @@ public class Title implements Serializable{
 	@SuppressWarnings("unused")
 	private Double score;
 	
+	private String synopsis;
+	
 	public Title() {
 	}
 
@@ -164,6 +166,14 @@ public class Title implements Serializable{
 	
 	public Double getScore() {
 		return calculateScore();
+	}
+
+	public String getSynopsis() {
+		return synopsis;
+	}
+
+	public void setSynopsis(String synopsis) {
+		this.synopsis = synopsis;
 	}
 
 	@Override

@@ -6,9 +6,7 @@ import java.util.Date;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
-import org.codehaus.jackson.map.util.JSONPObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.jackson.JsonObjectSerializer;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;

@@ -21,6 +21,8 @@ public class TitleNewDTO implements Serializable{
 	private Date start;
 	
 	private Date end;
+	
+	private String synopsis;
 
 	public String getName() {
 		return name;
@@ -44,6 +46,14 @@ public class TitleNewDTO implements Serializable{
 
 	public void setEnd(Date end) {
 		this.end = end;
+	}
+
+	public String getSynopsis() {
+		return synopsis;
+	}
+
+	public void setSynopsis(String synopsis) {
+		this.synopsis = synopsis;
 	}
 }
 
