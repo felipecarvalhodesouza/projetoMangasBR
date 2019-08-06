@@ -22,4 +22,8 @@ public class ReviewService {
 		return repo.save(review);
 	}
 
+	public void removeReview(Review review) {
+		repo.deleteById(review.getId());
+	}
+
 }

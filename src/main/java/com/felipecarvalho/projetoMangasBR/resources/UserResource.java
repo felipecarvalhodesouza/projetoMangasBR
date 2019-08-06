@@ -145,7 +145,6 @@ public class UserResource {
 		return ResponseEntity.noContent().build();
 	}
 	
-	// Só será possível adicionar reviews a titulos que estejam em sua coleção
 	@ApiOperation(value="Inserção de review em um título da coleção")
 	@RequestMapping(value="/{userId}/collection/{titleId}/reviews", method=RequestMethod.POST)
 	public ResponseEntity<Void> insertReview(@Valid @PathVariable Integer userId,
@@ -162,6 +161,21 @@ public class UserResource {
 		review.setTitle(title);
 		reviewService.saveReview(review);
 		
+		return ResponseEntity.noContent().build();
+	}
+	
+	@ApiOperation(value="Deleção de review em um título da coleção")
+	@RequestMapping(value="/{userId}/collection/{titleId}/reviews", method=RequestMethod.DELETE)
+	public ResponseEntity<Void> deleteReview(@Valid @PathVariable Integer userId,
+											 @PathVariable Integer titleId, 
+											 @RequestBody Review review){
+		
+		User user = service.find(userId);
+		user.setId(userId);
+		
+		if(review.getAuthor().getId().equals(user.getId())) {
+			reviewService.removeReview(review);
+		}
 		return ResponseEntity.noContent().build();
 	}
 	
