@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,14 +26,18 @@ public class Publisher implements Serializable{
 	@NotEmpty(message="Preenchimento obrigatório")
 	private String name;
 	
+	@Column(columnDefinition="TEXT")
+	private String history;
+	
 	@JsonIgnore
 	@OneToMany(mappedBy="publisher")
 	private List<Title> publications = new ArrayList<>();
 	
-	public Publisher(Integer id, String name) {
+	public Publisher(Integer id, String name, String history) {
 		super();
 		this.id = id;
 		this.name = name;
+		this.history = history;
 	}
 	
 	public Publisher() {
@@ -54,6 +59,14 @@ public class Publisher implements Serializable{
 		this.name = name;
 	}
 	
+	public String getHistory() {
+		return history;
+	}
+
+	public void setHistory(String history) {
+		this.history = history;
+	}
+
 	public List<Title> getPublications() {
 		return publications;
 	}
