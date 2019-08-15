@@ -51,7 +51,7 @@ public class CollectionService {
 		
 		CollectionTitle ct = new CollectionTitle(userId, title);
 		
-		return volumeUserRepository.findDistinctByCollectionTitle(ct, pageRequest);
+		return volumeUserRepository.findDistinctByCollectionTitleOrderByVolumeIdAsc(ct, pageRequest);
 		//return volumeUserRepository.findVolumes(userId, title);
 	}
 	

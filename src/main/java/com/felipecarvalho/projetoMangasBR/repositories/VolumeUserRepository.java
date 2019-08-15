@@ -23,6 +23,6 @@ public interface VolumeUserRepository extends JpaRepository<VolumeUser, Integer>
 	public List<VolumeUser> findVolumes(@Param("collectionId")Collection collection_Id, @Param("titleId")Title title_Id);
 	
 	@Transactional(readOnly=true)
-	public Page<VolumeUser> findDistinctByCollectionTitle(CollectionTitle collectionTitle, Pageable pageRequest);
+	public Page<VolumeUser> findDistinctByCollectionTitleOrderByVolumeIdAsc(CollectionTitle collectionTitle, Pageable pageRequest);
 	
 }
