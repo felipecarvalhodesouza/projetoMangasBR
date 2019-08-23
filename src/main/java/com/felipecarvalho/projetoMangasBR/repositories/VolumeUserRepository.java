@@ -25,4 +25,6 @@ public interface VolumeUserRepository extends JpaRepository<VolumeUser, Integer>
 	@Transactional(readOnly=true)
 	public Page<VolumeUser> findDistinctByCollectionTitleOrderByVolumeIdAsc(CollectionTitle collectionTitle, Pageable pageRequest);
 	
+	@Query("SELECT obj FROM VolumeUser obj WHERE obj.id = :volumeUserId")
+	public VolumeUser findVolumeUserById(@Param("volumeUserId")Integer volumeUserId);
 }

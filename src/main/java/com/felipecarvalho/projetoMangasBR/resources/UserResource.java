@@ -29,6 +29,7 @@ import com.felipecarvalho.projetoMangasBR.services.CollectionService;
 import com.felipecarvalho.projetoMangasBR.services.ReviewService;
 import com.felipecarvalho.projetoMangasBR.services.TitleService;
 import com.felipecarvalho.projetoMangasBR.services.UserService;
+import com.felipecarvalho.projetoMangasBR.services.VolumeUserService;
 import com.felipecarvalho.projetoMangasBR.services.exceptions.ObjectNotFoundException;
 
 import io.swagger.annotations.ApiOperation;
@@ -48,6 +49,9 @@ public class UserResource {
 	
 	@Autowired
 	private ReviewService reviewService;
+	
+	@Autowired
+	private VolumeUserService volumeUserService;
 	
 	@ApiOperation(value="Busca de usuário por id")
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
@@ -176,6 +180,20 @@ public class UserResource {
 		if(review.getAuthor().getId().equals(user.getId())) {
 			reviewService.removeReview(review);
 		}
+		return ResponseEntity.noContent().build();
+	}
+	
+	@ApiOperation(value="Edição de Volume-User")
+	@RequestMapping(value="/{userId}/collection/{titleId}/{volumeUserId}", method=RequestMethod.PUT)
+	public ResponseEntity<Void> updateVolumeUser(@Valid @RequestBody VolumeUser objNew,
+												 @PathVariable Integer userId, 
+												 @PathVariable Integer titleId,
+												 @PathVariable Integer volumeUserId){
+		
+		VolumeUser obj = volumeUserService.findVolumeUser(volumeUserId);
+		obj.setDoesHave(objNew.getDoesHave());
+		volumeUserService.updateVolumeUser(obj);
+		
 		return ResponseEntity.noContent().build();
 	}
 	
