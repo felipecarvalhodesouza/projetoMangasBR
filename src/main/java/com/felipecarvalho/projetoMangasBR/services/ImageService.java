@@ -65,4 +65,8 @@ public class ImageService {
 	public BufferedImage resize(BufferedImage sourceImg, int size) {
 		return Scalr.resize(sourceImg, Scalr.Method.ULTRA_QUALITY, size);
 	}
+	
+	public BufferedImage resizeVolumeImg(BufferedImage sourceImg, int altura, int largura) {
+		return Scalr.resize(sourceImg, Scalr.Method.ULTRA_QUALITY, altura, largura);
+	}
 }
