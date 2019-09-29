@@ -22,6 +22,7 @@ import com.felipecarvalho.projetoMangasBR.repositories.UserRepository;
 import com.felipecarvalho.projetoMangasBR.security.UserSS;
 import com.felipecarvalho.projetoMangasBR.services.exceptions.AuthorizationException;
 import com.felipecarvalho.projetoMangasBR.services.exceptions.DataIntegrityException;
+import com.felipecarvalho.projetoMangasBR.services.exceptions.EmailNotSentException;
 import com.felipecarvalho.projetoMangasBR.services.exceptions.ObjectNotFoundException;
 
 @Service
@@ -99,7 +100,14 @@ public class UserService {
 		obj.setCollection(col);
 		obj = repo.save(obj);
 		collectionRepository.save(col);
-		emailService.sendSignUpConfirmationHtmlEmail(obj);
+		try {
+			emailService.sendSignUpConfirmationHtmlEmail(obj);
+		}
+		catch(Exception e) {
+			collectionRepository.delete(col);
+			repo.delete(obj);
+			throw new EmailNotSentException(e.getMessage());
+		}
 		return obj; 
 	}
 	
