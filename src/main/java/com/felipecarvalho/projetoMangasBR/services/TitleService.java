@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import com.felipecarvalho.projetoMangasBR.domain.CollectionTitle;
 import com.felipecarvalho.projetoMangasBR.domain.Title;
+import com.felipecarvalho.projetoMangasBR.domain.User;
 import com.felipecarvalho.projetoMangasBR.domain.Volume;
 import com.felipecarvalho.projetoMangasBR.domain.VolumeUser;
 import com.felipecarvalho.projetoMangasBR.repositories.TitleRepository;
@@ -30,6 +31,12 @@ public class TitleService {
 	
 	@Autowired
 	private VolumeRepository volumeRepository;
+	
+	@Autowired
+	private EmailService emailService;
+	
+	@Autowired
+	private UserService userService;
 	
 	public Title find(Integer id) {
 		Optional<Title> obj = repo.findById(id);
@@ -69,8 +76,10 @@ public class TitleService {
 	}
 
 	public Volume insertVolume(@Valid Volume obj) {
-		Set<CollectionTitle> teste = obj.getTitle().getCollectionsTitle();
-		for(CollectionTitle x : teste) {
+		Set<CollectionTitle> collectionList = obj.getTitle().getCollectionsTitle();
+		for(CollectionTitle x : collectionList) {
+			User user = userService.find(x.getCollection().getId());
+			emailService.sendNewVolumeNotificationHtmlEmail(user, obj);
 			x.getVolumesUser().add(new VolumeUser(x, obj));
 		}
 		return volumeRepository.save(obj);

@@ -16,6 +16,7 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 import com.felipecarvalho.projetoMangasBR.domain.User;
+import com.felipecarvalho.projetoMangasBR.domain.Volume;
 import com.felipecarvalho.projetoMangasBR.repositories.UserRepository;
 import com.felipecarvalho.projetoMangasBR.security.JWTUtil;
 
@@ -63,6 +64,12 @@ public abstract class AbstractEmailService implements EmailService {
 		sendEmail(sm);
 	}
 	
+	@Override
+	public void sendNewVolumeNotificationEmail(User user, Volume volume) {
+		SimpleMailMessage sm =  prepareSimpleMailNewVolumeNotificationEmail(user, volume);
+		sendEmail(sm);
+	}
+	
 	protected SimpleMailMessage prepareSimpleMailMessageFromValidationSuccesful(User obj) {
 		SimpleMailMessage sm = new SimpleMailMessage();
 		sm.setTo(obj.getEmail());
@@ -101,6 +108,19 @@ public abstract class AbstractEmailService implements EmailService {
 		return sm;
 	}
 	
+	protected SimpleMailMessage prepareSimpleMailNewVolumeNotificationEmail(User obj, Volume volume) {
+		SimpleMailMessage sm = new SimpleMailMessage();
+		sm.setTo(obj.getEmail());
+		sm.setFrom(sender);
+		sm.setSubject("Novidades na sua coleção");
+		sm.setSentDate(new Date(System.currentTimeMillis()));
+		sm.setText("Olá, " + obj.getName() + " \n"
+				+ "Um novo volume foi adicionado em um título que você acompanha atualmente, \n"
+				+ "Título: " + volume.getTitleName() + "\n"
+				+ "Volume: " + volume.getName());
+		return sm;
+	}
+	
 	protected String htmlFromTemplateSignUp(User obj) {
 		Context context = new Context();
 		String token = jwtUtil.generateToken(obj.getEmail());
@@ -124,6 +144,57 @@ public abstract class AbstractEmailService implements EmailService {
 		context.setVariable("user", user);
 		context.setVariable("senha", newPass);
 		return templateEngine.process("email/newPassword", context);
+	}
+	
+	protected String htmlFromTemplateNewVolumeNotification(User user, Volume volume) {
+		Context context = new Context();
+		context.setVariable("user", user);
+		context.setVariable("volume", volume);
+		return templateEngine.process("email/volumeNotification", context);
+	}
+	
+	protected MimeMessage prepareMimeMessageFromSignUp(User obj) throws MessagingException {
+		MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+		MimeMessageHelper mmh = new MimeMessageHelper(mimeMessage, true);
+		mmh.setTo(obj.getEmail());
+		mmh.setFrom(sender);
+		mmh.setSubject("Usuário cadastrado com sucesso! Código: " + obj.getId());
+		mmh.setSentDate(new Date(System.currentTimeMillis()));
+		mmh.setText(htmlFromTemplateSignUp(obj), true);
+		return mimeMessage;
+	}
+	
+	protected MimeMessage prepareMimeMessageFromValidationSuccesful(User obj) throws MessagingException {
+		MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+		MimeMessageHelper mmh = new MimeMessageHelper(mimeMessage, true);
+		mmh.setTo(obj.getEmail());
+		mmh.setFrom(sender);
+		mmh.setSubject("Conta ativada com sucesso!");
+		mmh.setSentDate(new Date(System.currentTimeMillis()));
+		mmh.setText(htmlFromTemplateValidationSuccesful(obj), true);
+		return mimeMessage;
+	}
+	
+	protected MimeMessage prepareMimeMessageFromNewPassword(User obj, String newPass) throws MessagingException {
+		MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+		MimeMessageHelper mmh = new MimeMessageHelper(mimeMessage, true);
+		mmh.setTo(obj.getEmail());
+		mmh.setFrom(sender);
+		mmh.setSubject("Solicitação de nova senha");
+		mmh.setSentDate(new Date(System.currentTimeMillis()));
+		mmh.setText(htmlFromTemplateNewPassword(obj, newPass), true);
+		return mimeMessage;
+	}
+	
+	protected MimeMessage prepareMimeMessageFromVolumeNotification(User obj, Volume volume) throws MessagingException {
+		MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+		MimeMessageHelper mmh = new MimeMessageHelper(mimeMessage, true);
+		mmh.setTo(obj.getEmail());
+		mmh.setFrom(sender);
+		mmh.setSubject("Novidades em sua coleção");
+		mmh.setSentDate(new Date(System.currentTimeMillis()));
+		mmh.setText(htmlFromTemplateNewVolumeNotification(obj, volume), true);
+		return mimeMessage;
 	}
 	
 	@Override
@@ -160,37 +231,14 @@ public abstract class AbstractEmailService implements EmailService {
 		}
 	}
 	
-	protected MimeMessage prepareMimeMessageFromSignUp(User obj) throws MessagingException {
-		MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-		MimeMessageHelper mmh = new MimeMessageHelper(mimeMessage, true);
-		mmh.setTo(obj.getEmail());
-		mmh.setFrom(sender);
-		mmh.setSubject("Usuário cadastrado com sucesso! Código: " + obj.getId());
-		mmh.setSentDate(new Date(System.currentTimeMillis()));
-		mmh.setText(htmlFromTemplateSignUp(obj), true);
-		return mimeMessage;
+	public void sendNewVolumeNotificationHtmlEmail(User obj, Volume volume) {
+		MimeMessage mm;
+		try {
+			mm = prepareMimeMessageFromVolumeNotification(obj, volume);
+			sendHtmlEmail(mm);
+		}
+		catch (MessagingException e) {
+			sendNewVolumeNotificationEmail(obj, volume);
+		}
 	}
-	
-	protected MimeMessage prepareMimeMessageFromValidationSuccesful(User obj) throws MessagingException {
-		MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-		MimeMessageHelper mmh = new MimeMessageHelper(mimeMessage, true);
-		mmh.setTo(obj.getEmail());
-		mmh.setFrom(sender);
-		mmh.setSubject("Conta ativada com sucesso!");
-		mmh.setSentDate(new Date(System.currentTimeMillis()));
-		mmh.setText(htmlFromTemplateValidationSuccesful(obj), true);
-		return mimeMessage;
-	}
-	
-	protected MimeMessage prepareMimeMessageFromNewPassword(User obj, String newPass) throws MessagingException {
-		MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-		MimeMessageHelper mmh = new MimeMessageHelper(mimeMessage, true);
-		mmh.setTo(obj.getEmail());
-		mmh.setFrom(sender);
-		mmh.setSubject("Solicitação de nova senha");
-		mmh.setSentDate(new Date(System.currentTimeMillis()));
-		mmh.setText(htmlFromTemplateNewPassword(obj, newPass), true);
-		return mimeMessage;
-	}
-	
 }
