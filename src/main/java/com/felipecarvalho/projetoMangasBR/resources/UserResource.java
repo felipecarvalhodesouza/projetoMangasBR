@@ -3,6 +3,7 @@ package com.felipecarvalho.projetoMangasBR.resources;
 import java.io.ByteArrayInputStream;
 import java.net.URI;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -129,6 +130,23 @@ public class UserResource {
 		Collection collection = collectionService.findByUser(userId);
 
 		Page<VolumeUser> list = collectionService.findTitleVolumesWithPage(collection, title, page, linesPerPage);
+		return ResponseEntity.ok().body(list);
+	}
+	
+	@ApiOperation(value="Busca um título específico da coleção de um usuário, sem paginação")
+	@RequestMapping(value="/{userId}/collection/{titleId}/all", method=RequestMethod.GET)
+	public ResponseEntity<List<VolumeUser>> findCollectionVolumesNotPageable(@PathVariable Integer userId,
+																  @PathVariable Integer titleId){
+		service.find(userId);
+		
+		if(collectionService.findByUser(userId).getTitles().size()<(titleId)) {
+			throw new ObjectNotFoundException("O título informado não foi encontrado na coleção");
+		}
+		
+		Title title = collectionService.findByUser(userId).getTitles().get(titleId-1);
+		Collection collection = collectionService.findByUser(userId);
+
+		List<VolumeUser> list = collectionService.findTitleVolumes(collection, title);
 		return ResponseEntity.ok().body(list);
 	}
 	
