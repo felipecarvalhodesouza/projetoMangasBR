@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.felipecarvalho.projetoMangasBR.domain.Review;
@@ -76,6 +77,15 @@ public class TitleResource {
 	}
 	
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+	@ApiOperation(value="Insere um novo título")
+	@RequestMapping(method=RequestMethod.POST)
+	public ResponseEntity<Void> insertTitle(@Valid @RequestBody Title obj){
+		obj = service.insert(obj);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+		return ResponseEntity.created(uri).build();
+	}
+	
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
 	@ApiOperation(value="Insere um novo volume em determinado título")
 	@RequestMapping(value="/{id}", method=RequestMethod.POST)
 	public ResponseEntity<Void> insert(@Valid @RequestBody Volume obj, @PathVariable Integer id){
@@ -104,5 +114,12 @@ public class TitleResource {
 		String nameDecoded = URL.decodeParam(name);
 		Page<Title> list = service.search(nameDecoded, page, linesPerPage, orderBy, direction);
 		return ResponseEntity.ok().body(list);
+	}
+	
+	@RequestMapping(value="/{titleId}/picture", method=RequestMethod.POST)
+	public ResponseEntity<Void> uploadVolumePicture(@RequestParam(name="file") MultipartFile file, 
+													@PathVariable Integer titleId){
+		URI uri =  service.uploadTitlePicture(file, titleId);
+		return ResponseEntity.created(uri).build();
 	}
 }

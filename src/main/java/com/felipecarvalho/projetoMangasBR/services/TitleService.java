@@ -1,5 +1,7 @@
 package com.felipecarvalho.projetoMangasBR.services;
 
+import java.awt.image.BufferedImage;
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -7,13 +9,16 @@ import java.util.Set;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.felipecarvalho.projetoMangasBR.domain.CollectionTitle;
+import com.felipecarvalho.projetoMangasBR.domain.Publisher;
 import com.felipecarvalho.projetoMangasBR.domain.Title;
 import com.felipecarvalho.projetoMangasBR.domain.User;
 import com.felipecarvalho.projetoMangasBR.domain.Volume;
@@ -38,6 +43,15 @@ public class TitleService {
 	@Autowired
 	private UserService userService;
 	
+	@Autowired
+	private ImageService imageService;
+	
+	@Autowired
+	private S3Service s3Service;
+	
+	@Value("${img.volume.size}")
+	private Integer size;
+	
 	public Title find(Integer id) {
 		Optional<Title> obj = repo.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
@@ -58,6 +72,11 @@ public class TitleService {
 		catch(DataIntegrityViolationException e) {
 			throw new DataIntegrityException("Não é possível excluir um título que possui volumes relacionados");
 		}
+	}
+	
+	public Title insert(Title obj) {
+		obj.setId(null);
+		return repo.save(obj);
 	}
 	
 	public List<Title> findAll(){
@@ -83,5 +102,15 @@ public class TitleService {
 			x.getVolumesUser().add(new VolumeUser(x, obj));
 		}
 		return volumeRepository.save(obj);
+	}
+	
+	public URI uploadTitlePicture(MultipartFile multipartFile, Integer titleId) {
+		
+		BufferedImage jpgImage = imageService.getJpgImageFromFile(multipartFile);
+		jpgImage = imageService.resizeVolumeImg(jpgImage, size, 180);
+		
+		String fileName = "title" + titleId + ".jpg";
+
+		return s3Service.uploadFile(imageService.getInputStream(jpgImage, "jpg"), fileName, "image");
 	}
 }
