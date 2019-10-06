@@ -69,11 +69,11 @@ public class TitleResource {
 	
 	@ApiOperation(value="Busca os volumes de determinado título")
 	@RequestMapping(value="/{titleId}/volumes", method=RequestMethod.GET)
-	public ResponseEntity<List<VolumeDTO>> findVolumes(@PathVariable Integer titleId){
+	public ResponseEntity<List<Volume>> findVolumes(@PathVariable Integer titleId){
 		find(titleId);
 		List<Volume> list = volumeService.findByTitle(titleId);
-		List<VolumeDTO> listDto = volumeService.toDto(list);
-		return ResponseEntity.ok().body(listDto);
+		//List<VolumeDTO> listDto = volumeService.toDto(list);
+		return ResponseEntity.ok().body(list);
 	}
 	
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
