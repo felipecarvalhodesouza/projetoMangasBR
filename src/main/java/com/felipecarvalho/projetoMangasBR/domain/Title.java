@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -49,7 +50,7 @@ public class Title implements Serializable{
 	private Set<Volume> volumes = new HashSet<>();
 	
 	@JsonIgnore
-	@OneToMany(mappedBy="id.title")
+	@OneToMany(mappedBy="id.title", cascade = CascadeType.ALL)
 	private Set<CollectionTitle> collectionsTitle = new HashSet<>();
 	
 	@JsonIgnore
