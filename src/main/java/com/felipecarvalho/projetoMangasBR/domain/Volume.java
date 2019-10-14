@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -35,7 +36,7 @@ public class Volume implements Serializable{
 	private Date date;
 	private Double price;
 	
-	@OneToMany(mappedBy="volume")
+	@OneToMany(mappedBy="volume", cascade = CascadeType.ALL)
 	private List<VolumeUser> volumeUser;
 	
 	Volume(){

@@ -4,6 +4,7 @@ import java.net.URI;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -37,5 +38,13 @@ public class VolumeResource {
 													@PathVariable Integer volumeId){
 		URI uri =  service.uploadVolumePicture(file, titleId, volumeId);
 		return ResponseEntity.created(uri).build();
+	}
+	
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+	@ApiOperation(value="Deleção de volume por id")
+	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
+	public ResponseEntity<Void> delete(@PathVariable Integer id) {
+		service.delete(id);
+		return ResponseEntity.noContent().build();
 	}
 }

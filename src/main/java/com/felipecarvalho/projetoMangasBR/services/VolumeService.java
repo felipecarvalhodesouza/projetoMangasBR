@@ -8,6 +8,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,6 +17,7 @@ import com.felipecarvalho.projetoMangasBR.dto.VolumeDTO;
 import com.felipecarvalho.projetoMangasBR.repositories.VolumeRepository;
 import com.felipecarvalho.projetoMangasBR.security.UserSS;
 import com.felipecarvalho.projetoMangasBR.services.exceptions.AuthorizationException;
+import com.felipecarvalho.projetoMangasBR.services.exceptions.DataIntegrityException;
 import com.felipecarvalho.projetoMangasBR.services.exceptions.ObjectNotFoundException;
 
 @Service
@@ -67,6 +69,16 @@ public class VolumeService {
 		String fileName = "title" + titleId + prefix + volumeId + ".jpg";
 
 		return s3Service.uploadFile(imageService.getInputStream(jpgImage, "jpg"), fileName, "image");
+	}
+	
+	public void delete(Integer id) {
+		find(id);
+		try {
+			repo.deleteById(id);
+		}
+		catch(DataIntegrityViolationException e) {
+			throw new DataIntegrityException("Erro ao tentar excluir o Volume.");
+		}
 	}
 
 }
