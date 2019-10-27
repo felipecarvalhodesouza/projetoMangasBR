@@ -94,7 +94,7 @@ public class PublisherService {
 		return find(id).getPublications();
 	}
 	
-	public URI uploadTitlePicture(MultipartFile multipartFile, Integer publisherId) {
+	public URI uploadPublisherPicture(MultipartFile multipartFile, Integer publisherId) {
 		
 		BufferedImage jpgImage = imageService.getJpgImageFromFile(multipartFile);
 		jpgImage = imageService.resizeVolumeImg(jpgImage, 110, 75);
