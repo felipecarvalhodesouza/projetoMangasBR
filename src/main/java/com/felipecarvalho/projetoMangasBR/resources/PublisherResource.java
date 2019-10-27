@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.felipecarvalho.projetoMangasBR.domain.Publisher;
@@ -106,6 +107,13 @@ public class PublisherResource {
 	public ResponseEntity<Void> delete(@PathVariable Integer id) {
 		service.delete(id);
 		return ResponseEntity.noContent().build();
+	}
+	
+	@RequestMapping(value="/{publisherId}/picture", method=RequestMethod.POST)
+	public ResponseEntity<Void> uploadVolumePicture(@RequestParam(name="file") MultipartFile file, 
+													@PathVariable Integer publisherId){
+		URI uri =  service.uploadPublisherPicture(file, publisherId);
+		return ResponseEntity.created(uri).build();
 	}
 
 }

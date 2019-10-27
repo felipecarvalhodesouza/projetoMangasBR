@@ -1,5 +1,7 @@
 package com.felipecarvalho.projetoMangasBR.services;
 
+import java.awt.image.BufferedImage;
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.felipecarvalho.projetoMangasBR.domain.Publisher;
 import com.felipecarvalho.projetoMangasBR.domain.Title;
@@ -26,6 +29,12 @@ public class PublisherService {
 	
 	@Autowired
 	private TitleRepository titleRepository;
+	
+	@Autowired
+	private ImageService imageService;
+	
+	@Autowired
+	private S3Service s3Service;
 	
 	public Publisher find(Integer id) {
 		Optional<Publisher> obj = repo.findById(id);
@@ -83,5 +92,15 @@ public class PublisherService {
 
 	public List<Title> findTitles(Integer id) {
 		return find(id).getPublications();
+	}
+	
+	public URI uploadTitlePicture(MultipartFile multipartFile, Integer publisherId) {
+		
+		BufferedImage jpgImage = imageService.getJpgImageFromFile(multipartFile);
+		jpgImage = imageService.resizeVolumeImg(jpgImage, 110, 75);
+		
+		String fileName = "publisher" + publisherId + ".jpg";
+
+		return s3Service.uploadFile(imageService.getInputStream(jpgImage, "jpg"), fileName, "image");
 	}
 }
