@@ -68,7 +68,7 @@ public class CollectionService {
 		collectionTitleRepository.save(ct);
 		
 		for(Volume volume : title.getVolumes()) {
-			VolumeUser vl = new VolumeUser(ct, volume);
+			VolumeUser vl = new VolumeUser(ct, volume, 0.0);
 			volumeUserRepository.save(vl);
 			ct.getVolumesUser().add(vl);
 		}

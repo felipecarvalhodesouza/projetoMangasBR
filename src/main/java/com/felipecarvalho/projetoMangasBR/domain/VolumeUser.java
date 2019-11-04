@@ -30,14 +30,16 @@ public class VolumeUser implements Serializable{
 	private CollectionTitle collectionTitle;
 	
 	private boolean doesHave;
+	private Double paidPrice;
 	
 	public VolumeUser() {
 	}
 	
-	public VolumeUser(CollectionTitle collectionTitle, Volume obj) {
+	public VolumeUser(CollectionTitle collectionTitle, Volume obj, double paidPrice) {
 		this.collectionTitle = collectionTitle;
 		this.volume = obj;
 		this.doesHave = false;
+		this.paidPrice = paidPrice;
 	}
 	
 	public Integer getId() {
@@ -68,6 +70,14 @@ public class VolumeUser implements Serializable{
 		this.doesHave = doesHave;
 	}
 	
+	public Double getPaidPrice() {
+		return paidPrice;
+	}
+
+	public void setPaidPrice(Double paidPrice) {
+		this.paidPrice = paidPrice;
+	}
+
 	public Volume getVolume() {
 		return this.volume;
 	}

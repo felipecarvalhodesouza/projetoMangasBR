@@ -215,6 +215,7 @@ public class UserResource {
 		
 		VolumeUser obj = volumeUserService.findVolumeUser(volumeUserId);
 		obj.setDoesHave(objNew.getDoesHave());
+		obj.setPaidPrice(objNew.getPaidPrice());
 		volumeUserService.updateVolumeUser(obj);
 		
 		return ResponseEntity.noContent().build();

@@ -99,7 +99,7 @@ public class TitleService {
 		for(CollectionTitle x : collectionList) {
 			User user = userService.find(x.getCollection().getId());
 			emailService.sendNewVolumeNotificationHtmlEmail(user, obj);
-			x.getVolumesUser().add(new VolumeUser(x, obj));
+			x.getVolumesUser().add(new VolumeUser(x, obj, 0.0));
 		}
 		return volumeRepository.save(obj);
 	}
